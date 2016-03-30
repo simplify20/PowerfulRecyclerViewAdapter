@@ -4,8 +4,11 @@
 	tips:图片看不清可右键另存或新标签页打开后查看
 ![这里写图片描述](http://img.blog.csdn.net/20160330181333561)
 ###主要类：
+
 `class CommonRecyclerAdapter`：万能适配器，支持插入和删除数据
+
 `interface DisplayBean`：用于创建ViewHolder
+
 `interface DataBean`：扩展了DisplayBean接口，可以绑定数据到ViewHolder
 
 ###使用步骤：
@@ -96,6 +99,7 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
 ![这里写图片描述](http://img.blog.csdn.net/20160330174155924)
 
 - 复用ViewHolder和DataBean
+
  使用接口关联DateBean和ViewHolder
  ####`ICategory` 接口
  ```java

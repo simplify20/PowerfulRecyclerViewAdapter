@@ -5,26 +5,29 @@ import android.widget.TextView;
 
 import com.steve.creact.library.viewholder.BaseRecyclerViewHolder;
 import com.steve.creact.powerfuladapter.R;
-import com.steve.creact.powerfuladapter.data.Category;
 
 /**
  * @author:YJJ
  * @date:2016/3/30
  * @email:yangjianjun@117go.com
  */
-public class CategoryViewHolder extends BaseRecyclerViewHolder<Category> {
+public class CategoryViewHolder extends BaseRecyclerViewHolder<ICategory> {
     public static final int LAYOUT_ID = R.layout.item_book_catagory;
-    private TextView catrgoryNameTxt;
+    protected TextView categoryNameTxt;
 
     public CategoryViewHolder(View itemView) {
         super(itemView);
-        catrgoryNameTxt = findView(R.id.book_category);
     }
 
     @Override
-    public void setData(Category data) {
-        if (data == null)
+    protected void initView() {
+        categoryNameTxt = findView(R.id.book_category);
+    }
+
+    @Override
+    public void setData(ICategory category) {
+        if (category == null)
             return;
-        catrgoryNameTxt.setText(data.getName());
+        categoryNameTxt.setText(category.getName());
     }
 }

@@ -14,6 +14,7 @@ import com.steve.creact.library.display.DisplayBean;
 import com.steve.creact.powerfuladapter.R;
 import com.steve.creact.powerfuladapter.data.Book;
 import com.steve.creact.powerfuladapter.data.Category;
+import com.steve.creact.powerfuladapter.data.MockCategory;
 import com.steve.creact.powerfuladapter.presentation.displaybean.BookTitleBean;
 import com.steve.creact.powerfuladapter.presentation.displaybean.CategoryBean;
 
@@ -40,6 +41,13 @@ public class BaseListActivity extends AppCompatActivity {
         for (int i = 0; i < 20; i++) {
             if (i % 5 == 0) {
                 //加入分类
+                if (i == 0) {
+                    //加入mock的category
+                    MockCategory mockCategory = new MockCategory();
+                    CategoryBean categoryBean = new CategoryBean(mockCategory);
+                    bookTitleBeans.add(categoryBean);
+                    return;
+                }
                 Category category = new Category(i / 5, "category" + (i / 5 + 1));
                 CategoryBean categoryBean = new CategoryBean(category);
                 bookTitleBeans.add(categoryBean);

@@ -10,9 +10,10 @@ import android.view.View;
  * @date:2015/10/15
  * @email:yangjianjun@117go.com
  */
-public class BaseRecyclerViewHolder<T> extends RecyclerView.ViewHolder {
+public class BaseRecyclerViewHolder<D> extends RecyclerView.ViewHolder {
     public BaseRecyclerViewHolder(View itemView) {
         super(itemView);
+        initView();
     }
 
     public Context getContext() {
@@ -23,10 +24,7 @@ public class BaseRecyclerViewHolder<T> extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(listener);
     }
 
-    public void setData(T data) {
-    }
-
-    protected void setListener() {
+    public void setData(D data) {
     }
 
     protected void initView() {
@@ -37,8 +35,7 @@ public class BaseRecyclerViewHolder<T> extends RecyclerView.ViewHolder {
     }
 
 
-
-    public View getView() {
+    public View getRootView() {
         return itemView;
     }
 }

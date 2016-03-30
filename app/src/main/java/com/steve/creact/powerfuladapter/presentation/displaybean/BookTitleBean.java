@@ -12,20 +12,9 @@ import com.steve.creact.powerfuladapter.presentation.viewholder.BookTitleViewHol
  * @email:yangjianjun@117go.com
  */
 public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
-    private Book book;
 
-    public BookTitleBean(Book book) {
-        this.book = book;
-    }
-
-    @Override
-    public void bindData(BookTitleViewHolder holder) {
-        holder.setData(book);
-    }
-
-    @Override
-    public Book getData() {
-        return book;
+    public BookTitleBean(Book data) {
+        super(data);
     }
 
     @Override

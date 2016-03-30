@@ -19,6 +19,10 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
 
     public BookTitleViewHolder(View itemView) {
         super(itemView);
+    }
+
+    @Override
+    protected void initView() {
         nameTxt = findView(R.id.name);
         priceTxt = findView(R.id.price);
     }

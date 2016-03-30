@@ -61,7 +61,7 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
     }
 }
 ```
-- 使用DataBean
+- 构建数据集
 ```java
     protected void initData() {
 	    //数据集
@@ -89,6 +89,7 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
             BookTitleBean bookTitleBean = new BookTitleBean(book);
             bookTitleBeans.add(bookTitleBean);
         }
+        //显示
         adapter.loadData(bookTitleBeans);
     }
 ```

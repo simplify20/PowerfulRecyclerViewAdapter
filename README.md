@@ -9,7 +9,7 @@
 
 `interface DisplayBean`：用于创建ViewHolder
 
-`interface DataBean`：扩展了DisplayBean接口，可以绑定数据到ViewHolder
+`interface DataBean`：扩展了DisplayBean接口，可以绑定数据到ViewHolder，也可以创建ViewHolder,是数据与ViewHolder之间的桥梁
 
 ###使用步骤：
 

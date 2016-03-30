@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface IDataConsumer<T>
 {
-    public void loadData(List<? extends T> data);
+    void loadData(List<? extends T> data);
 }

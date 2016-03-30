@@ -8,7 +8,7 @@ import java.util.List;
  * @email:yangjianjun@117go.com
  */
 public interface IDataArranger<T>{
-    public T getItem(int position);
+    T getItem(int position);
     void removeDatas(int[] positions);
     void removeData(int position, boolean oneOfMore);
     void insertData(int position, T obj);

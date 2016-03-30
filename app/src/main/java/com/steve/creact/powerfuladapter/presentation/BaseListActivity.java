@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.steve.creact.library.adapter.CommonRecyclerAdapter;
+import com.steve.creact.library.display.CommonDisplayBean;
 import com.steve.creact.library.display.DisplayBean;
 import com.steve.creact.powerfuladapter.R;
 import com.steve.creact.powerfuladapter.data.Book;
@@ -37,16 +38,19 @@ public class BaseListActivity extends AppCompatActivity {
 
     protected void initData() {
         List<DisplayBean> bookTitleBeans = new ArrayList<>(20);
+        //add progress display bean
+        CommonDisplayBean progressBean = new CommonDisplayBean(R.layout.item_progress);
+        bookTitleBeans.add(progressBean);
         Random random = new Random();
         for (int i = 0; i < 20; i++) {
             if (i % 5 == 0) {
-                //加入分类
+                //add category
                 if (i == 0) {
-                    //加入mock的category
+                    //add mock category
                     MockCategory mockCategory = new MockCategory();
                     CategoryBean categoryBean = new CategoryBean(mockCategory);
                     bookTitleBeans.add(categoryBean);
-                    return;
+                    continue;
                 }
                 Category category = new Category(i / 5, "category" + (i / 5 + 1));
                 CategoryBean categoryBean = new CategoryBean(category);

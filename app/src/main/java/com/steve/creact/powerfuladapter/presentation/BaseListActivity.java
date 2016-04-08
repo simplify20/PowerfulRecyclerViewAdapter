@@ -50,17 +50,18 @@ public class BaseListActivity extends AppCompatActivity {
                     MockCategory mockCategory = new MockCategory();
                     CategoryBean categoryBean = new CategoryBean(mockCategory);
                     bookTitleBeans.add(categoryBean);
-                    continue;
+                } else {
+                    Category category = new Category(i / 5, "category" + (i / 5 + 1));
+                    CategoryBean categoryBean = new CategoryBean(category);
+                    bookTitleBeans.add(categoryBean);
                 }
-                Category category = new Category(i / 5, "category" + (i / 5 + 1));
-                CategoryBean categoryBean = new CategoryBean(category);
-                bookTitleBeans.add(categoryBean);
             }
             float price = random.nextFloat() * 200 + 1.0f;
             Book book = new Book(i, "book" + i, (float) (Math.round(price * 100) / 100.0), (i + 50));
             BookTitleBean bookTitleBean = new BookTitleBean(book);
             bookTitleBeans.add(bookTitleBean);
         }
+        //load data
         adapter.loadData(bookTitleBeans);
     }
 

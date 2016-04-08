@@ -12,12 +12,7 @@ import com.steve.creact.powerfuladapter.R;
  * @date:2016/3/30
  * @email:yangjianjun@117go.com
  */
-@DataBean(
-        beanName = "CategoryBean",
-        packageName = "com.steve.creact.powerfuladapter.presentation.displaybean",
-        data = ICategory.class,
-        holder = CategoryViewHolder.class,
-        layout = CategoryViewHolder.LAYOUT_ID)
+
 public class CategoryViewHolder extends BaseRecyclerViewHolder<ICategory> {
     public static final int LAYOUT_ID = R.layout.item_book_catagory;
     protected TextView categoryNameTxt;

@@ -1,11 +1,31 @@
 ##PowerfulRecyclerAdapter
 支持各种ViewHolder类型的RecyclerView.Adapter的实现，是一个万能适配器
+
+
+**特性：**
+
+- 使用DataBean关联Data(Model)与ViewHolder;
+- DataBean控制ViewHolder的创建以及数据到ViewHolder的绑定；
+- Adapter的一部分职能由DataBean承担，如创建不同类型的ViewHolder以及绑定数据到ViewHolder,Adapter只用维护数据的相关操作即可；
+- Adapter的onCreateViewHolder和onBindViewHolder中没有switch..case语句，通过DataBean的多态性实现不同的创建和绑定；
+- 使用了本项目的Adapter,使用RecyclerView时就不用写Adapter了；
+- 支持任何种类的ViewHolder(继承自BaseRecyclerViewHolder)
+- 使用接口可以提高ViewHolder及Data的复用性，并且利于测试。
+
+**新特性：**
+
+	Added in 2016-4-10：
+	新增 @DataBean 注解,目前在[dev分支]上
+	使用类似Dagger2和DataBinding的编译期注解处理器，在编译器根据模板生成DataBean代码（模板引擎），这样可以省去编写DataBean的成本。
+	参考下文[使用DataBean注解]
+
+dev分支：https://github.com/simplify20/PowerfulRecyclerViewAdapter/tree/dev
 ###类图：
 	tips:图片看不清可右键另存或新标签页打开后查看
 ![这里写图片描述](http://img.blog.csdn.net/20160330181333561)
 ###主要类：
 
-`class CommonRecyclerAdapter`：万能适配器，支持插入和删除数据
+`class CommonRecyclerAdapter`：万能适配器，支持插入和删除数据,支持任意类型的ViewHolder(限于RecyclerView)
 
 `interface DisplayBean`：用于创建ViewHolder
 
@@ -29,7 +49,7 @@ public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 
     @Override
     public BookTitleViewHolder createHolder(ViewGroup parent) {
-	    //创建一个ViewHolder实例
+	    //create an instance of Your ViewHolder
         return new BookTitleViewHolder(getView(parent, BookTitleViewHolder.LAYOUT_ID));
     }
 }
@@ -37,7 +57,7 @@ public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 - 根据item内容，继承BaseRecyclerViewHolder，实现自定义ViewHolder；
 ```java
 public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
-	//声明布局ID
+	//declare LAYOUT_ID
     public static final int LAYOUT_ID = R.layout.item_book_title;
     private TextView nameTxt;
     private TextView priceTxt;
@@ -61,10 +81,10 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
     }
 }
 ```
-- 构建数据集
+- 构建用于显示的数据集：data set -> displaybean set
 ```java
     protected void initData() {
-	    //数据集
+	    //init displaybean set
         List<DisplayBean> bookTitleBeans = new ArrayList<>(20);
         //add progress display bean
         CommonDisplayBean progressBean = new CommonDisplayBean(R.layout.item_progress);
@@ -78,18 +98,20 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
                     MockCategory mockCategory = new MockCategory();
                     CategoryBean categoryBean = new CategoryBean(mockCategory);
                     bookTitleBeans.add(categoryBean);
-                    continue;
+            
                 }
-                Category category = new Category(i / 5, "category" + (i / 5 + 1));
-                CategoryBean categoryBean = new CategoryBean(category);
-                bookTitleBeans.add(categoryBean);
+                else{
+	                Category category = new Category(i / 5, "category" + (i / 5 + 1));
+	                CategoryBean categoryBean = new CategoryBean(category);
+	                bookTitleBeans.add(categoryBean);
+                }
             }
             float price = random.nextFloat() * 200 + 1.0f;
             Book book = new Book(i, "book" + i, (float) (Math.round(price * 100) / 100.0), (i + 50));
             BookTitleBean bookTitleBean = new BookTitleBean(book);
             bookTitleBeans.add(bookTitleBean);
         }
-        //显示
+        //load data
         adapter.loadData(bookTitleBeans);
     }
 ```
@@ -132,8 +154,9 @@ public interface ICategory {
     }
 }
  ```
+ 
  ####`CategoryViewHolder`
- ```java
+```java
  public class CategoryViewHolder extends BaseRecyclerViewHolder<ICategory> {
     public static final int LAYOUT_ID = R.layout.item_book_catagory;
     protected TextView categoryNameTxt;
@@ -154,4 +177,90 @@ public interface ICategory {
         categoryNameTxt.setText(category.getName());
     }
 }
- ```
+```
+
+
+
+###使用@DataBean注解
+因为父类DataBean已经完成了很多工作，具体DataBean的代码很少，且都是样板代码，为了简单省事，所以采用代码生成器来生成这部分代码。而生成代码的工具是holder-compiler：注解处理器，这个我已经写好了，在使用时，你只需用@DataBean注解你的具体ViewHolder,注解处理器会帮你生成所需的代码，非常方便。
+
+
+**使用步骤,以BookTitleViewHolder为例:**
+```java
+//use DataBean annotation to annotate your ViewHolder
+@DataBean(beanName = "TestDataBean", data = Book.class)
+public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
+	//declare LAYOUT_ID,the name must be LAYOUT_ID
+    public static final int LAYOUT_ID = R.layout.item_book_title;
+    private TextView nameTxt;
+    private TextView priceTxt;
+
+    public BookTitleViewHolder(View itemView) {
+        super(itemView);
+    }
+
+    @Override
+    protected void initView() {
+        nameTxt = findView(R.id.name);
+        priceTxt = findView(R.id.price);
+    }
+
+    @Override
+    public void setData(Book data) {
+        if (data == null)
+            return;
+        nameTxt.setText(data.getName());
+        priceTxt.setText(String.valueOf(data.getPrice()));
+    }
+}
+```
+1.继承BaseRecyclerViewHolder创建你的ViewHolder；
+
+	注:ViewHolder中LAYOUT_ID字段是必填的，且命名限定为LAYOUT_ID,是一个公有常量，因为生成的代码要引用ViewHolder的这个字段。
+2.使用@DataBean注解你的ViewHolder(只能注解类，详见DataBean注解的源码，在holder-annotation module下)
+3.DataBean的几个属性：
+
+- beanName->要生成的DataBean的简单类名，String类型；
+- data->要绑定的数据的类型，Class类型。
+
+4.build项目，注解处理器会在编译器获得注解信息，并生成代码，生成的TestDataBean如下：
+app\build\generated\source\apt\debug\ [package]\TestDataBean.java
+```java
+package com.steve.creact.powerfuladapter.presentation.viewholder.databean;
+
+import android.view.ViewGroup;
+
+import com.steve.creact.library.display.BaseDataBean;
+import com.steve.creact.powerfuladapter.data.Book;
+import com.steve.creact.powerfuladapter.presentation.viewholder.BookTitleViewHolder;
+
+/**
+ * Generated DataBean for BookTitleViewHolder
+ * Powered by Holder-Compiler
+ */
+public class TestDataBean extends BaseDataBean<Book, BookTitleViewHolder> {
+
+    public TestDataBean(Book data) {
+        super(data);
+    }
+
+    @Override
+    public BookTitleViewHolder createHolder(ViewGroup parent) {
+        return new BookTitleViewHolder(getView(parent, BookTitleViewHolder.LAYOUT_ID));//that's why need LAYOUT_ID field in ViewHolder
+    }
+}
+```
+可见，与手写代码完全一样。
+
+**build时可能存在的问题：**
+holder-compiler.jar无法删除->打开任务管理器，结束java se进程，重新build.
+
+###联系我（Contact Me）:
+
+>Email:creact92@gmail.com
+
+>Weibo:http://weibo.com/u/3398987850
+
+>Github:https://github.com/simplify20
+
+>CSDN:http://blog.csdn.net/u012825445

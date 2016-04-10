@@ -5,7 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/PowerfulRecyclerViewAdapter.iml" filepath="$PROJECT_DIR$/PowerfulRecyclerViewAdapter.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/holder-annotations/holder-annotations.iml" filepath="$PROJECT_DIR$/holder-annotations/holder-annotations.iml" />
-      <module fileurl="file://$PROJECT_DIR$/holder-complier/holder-complier.iml" filepath="$PROJECT_DIR$/holder-complier/holder-complier.iml" />
+      <module fileurl="file://$PROJECT_DIR$/holder-compiler/holder-compiler.iml" filepath="$PROJECT_DIR$/holder-compiler/holder-compiler.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
     </modules>
   </component>

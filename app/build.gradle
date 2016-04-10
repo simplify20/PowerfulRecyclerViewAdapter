@@ -26,6 +26,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'
     //annotation processor
+    //Note:use "compile" cmd to generate build files(holder-compiler.jar),when jar file is generated,use "apt" cmd instead.
     apt project(':holder-compiler')
     testCompile 'junit:junit:4.12'
 }

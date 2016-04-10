@@ -13,9 +13,7 @@ import com.steve.creact.powerfuladapter.presentation.viewholder.BookTitleViewHol
  */
 public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 
-    public BookTitleBean(Book data) {
-        super(data);
-    }
+    public BookTitleBean(Book data) {super(data);}
 
     @Override
     public BookTitleViewHolder createHolder(ViewGroup parent) {

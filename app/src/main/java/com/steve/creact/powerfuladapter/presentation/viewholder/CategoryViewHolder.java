@@ -3,7 +3,6 @@ package com.steve.creact.powerfuladapter.presentation.viewholder;
 import android.view.View;
 import android.widget.TextView;
 
-import com.steve.creact.library.annotation.DataBean;
 import com.steve.creact.library.viewholder.BaseRecyclerViewHolder;
 import com.steve.creact.powerfuladapter.R;
 

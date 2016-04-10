@@ -3,16 +3,18 @@ package com.steve.creact.processor.core;
 import com.steve.creact.processor.model.AbstractModel;
 
 import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.Element;
 
 /**
  * Created by Administrator on 2016/4/10.
  */
-public interface ViewGenerator<T> {
+public interface ModelCreator {
 
     /**
-     * Generate View according to the model
-     * @param abstractModel
+     * create a model
+     * @param element
      * @param processingEnv
+     * @return
      */
-    void generate(AbstractModel<T> abstractModel,ProcessingEnvironment processingEnv);
+    AbstractModel createModel(Element element, ProcessingEnvironment processingEnv);
 }

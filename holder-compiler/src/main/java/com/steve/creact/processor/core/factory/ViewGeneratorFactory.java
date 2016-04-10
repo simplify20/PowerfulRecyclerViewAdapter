@@ -1,6 +1,7 @@
-package com.steve.creact.processor.core;
+package com.steve.creact.processor.core.factory;
 
 
+import com.steve.creact.processor.core.ViewGenerator;
 import com.steve.creact.processor.core.impl.ViewGeneratorImpl;
 
 /**

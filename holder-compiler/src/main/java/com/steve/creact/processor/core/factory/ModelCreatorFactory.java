@@ -1,19 +1,20 @@
-package com.steve.creact.processor.core;
+package com.steve.creact.processor.core.factory;
 
-import com.steve.creact.processor.core.impl.BeanInfoCreatorImpl;
+import com.steve.creact.processor.core.ModelCreator;
+import com.steve.creact.processor.core.impl.DataBeanModelCreator;
 
 /**
  * Created by Administrator on 2016/4/10.
  */
-public class BeanInfoCreatorFactory {
-    private BeanInfoCreatorFactory() {
+public class ModelCreatorFactory {
+    private ModelCreatorFactory() {
     }
 
-    public static BeanInfoCreator get(Class<? extends BeanInfoCreator> clz) {
+    public static ModelCreator getCreator(Class<? extends ModelCreator> clz) {
         if (clz == null) {
             throw new IllegalArgumentException("clz argument can not be null.");
         }
-        BeanInfoCreator result = null;
+        ModelCreator result = null;
         try {
             result = clz.newInstance();
         } catch (InstantiationException e) {
@@ -22,7 +23,7 @@ public class BeanInfoCreatorFactory {
             e.printStackTrace();
         }
         if (result == null)
-            result = new BeanInfoCreatorImpl();
+            result = new DataBeanModelCreator();
         return result;
     }
 }

@@ -1,8 +1,7 @@
 ##PowerfulRecyclerAdapter
 支持各种ViewHolder类型的RecyclerView.Adapter的实现，是一个万能适配器
 
-项目地址：https://github.com/simplify20/PowerfulRecyclerViewAdapter
-欢迎star,fork,提issue.
+master分支：https://github.com/simplify20/PowerfulRecyclerViewAdapter
 
 **特性：**
 
@@ -21,7 +20,7 @@
 	使用类似Dagger2和DataBinding的编译期注解处理器，在编译器根据模板生成DataBean代码（模板引擎），这样可以省去编写DataBean的成本。
 	参考下文[使用DataBean注解]
 
-[dev分支](https://github.com/simplify20/PowerfulRecyclerViewAdapter/tree/dev)
+dev分支：https://github.com/simplify20/PowerfulRecyclerViewAdapter/tree/dev
 ###类图：
 	tips:图片看不清可右键另存或新标签页打开后查看
 ![这里写图片描述](http://img.blog.csdn.net/20160330181333561)
@@ -260,6 +259,9 @@ holder-compiler.jar无法删除->打开任务管理器，结束java se进程，�
 ###联系我（Contact Me）:
 
 >Email:creact92@gmail.com
+
 >Weibo:http://weibo.com/u/3398987850
+
 >Github:https://github.com/simplify20
+
 >CSDN:http://blog.csdn.net/u012825445

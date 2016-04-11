@@ -3,6 +3,7 @@ package com.steve.creact.powerfuladapter.presentation.displaybean;
 import android.view.ViewGroup;
 
 import com.steve.creact.library.display.BaseDataBean;
+import com.steve.creact.powerfuladapter.data.MockCategory;
 import com.steve.creact.powerfuladapter.presentation.viewholder.CategoryViewHolder;
 import com.steve.creact.powerfuladapter.presentation.viewholder.ICategory;
 

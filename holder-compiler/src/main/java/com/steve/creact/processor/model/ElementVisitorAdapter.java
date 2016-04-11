@@ -1,4 +1,4 @@
-package com.steve.creact.processor.core;
+package com.steve.creact.processor.model;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementVisitor;

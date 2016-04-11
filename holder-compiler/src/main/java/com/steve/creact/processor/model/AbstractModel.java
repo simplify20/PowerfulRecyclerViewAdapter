@@ -1,7 +1,5 @@
 package com.steve.creact.processor.model;
 
-import com.steve.creact.processor.core.ElementVisitorAdapter;
-
 import javax.lang.model.element.Element;
 
 /**

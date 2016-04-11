@@ -1,6 +1,7 @@
 package com.steve.creact.processor;
 
 import com.steve.creact.annotation.DataBean;
+import com.steve.creact.processor.core.Logger;
 import com.steve.creact.processor.core.ModelCreator;
 import com.steve.creact.processor.core.ViewGenerator;
 import com.steve.creact.processor.core.factory.ModelCreatorFactory;
@@ -33,23 +34,24 @@ public class DataBeanProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         Messager messager = processingEnv.getMessager();
-        long startr = System.currentTimeMillis();
+        Logger logger = Logger.getInstance(messager);
+        long start_r = System.currentTimeMillis();
         for (Element element : roundEnv.getElementsAnnotatedWith(DataBean.class)) {
-            messager.printMessage(Diagnostic.Kind.NOTE,
+            logger.log(Diagnostic.Kind.NOTE,
                     "\nCollect Model Info:");
             long start = System.currentTimeMillis();
             //collect Model info
             AbstractModel abstractModel = collectModeInfo(element);
-            messager.printMessage(Diagnostic.Kind.NOTE,
+            logger.log(Diagnostic.Kind.NOTE,
                     "\nStart Generating View");
             //generate View
             createView(abstractModel);
 
-            messager.printMessage(Diagnostic.Kind.NOTE,
+            logger.log(Diagnostic.Kind.NOTE,
                     "\nFinished Generating View,time:" + (System.currentTimeMillis() - start) + "ms");
         }
-        messager.printMessage(Diagnostic.Kind.NOTE,
-                "\nFinished a round,time:" + (System.currentTimeMillis() - startr) + "ms");
+        logger.log(Diagnostic.Kind.NOTE,
+                "\nFinished a round,time:" + (System.currentTimeMillis() - start_r) + "ms");
         return true;
     }
 

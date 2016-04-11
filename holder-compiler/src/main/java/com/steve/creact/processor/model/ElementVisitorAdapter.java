@@ -1,5 +1,8 @@
 package com.steve.creact.processor.model;
 
+import com.steve.creact.processor.core.Logger;
+
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementVisitor;
 import javax.lang.model.element.ExecutableElement;
@@ -7,12 +10,25 @@ import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.element.VariableElement;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
 
 /**
  * See ElementVisitor document
  * Created by Administrator on 2016/4/10.
  */
 public abstract class ElementVisitorAdapter<R, P> implements ElementVisitor<R, P> {
+    protected ProcessingEnvironment processingEnv;
+    protected Types typeUtils;
+    protected Logger logger;
+    protected Elements elements;
+
+    public ElementVisitorAdapter(ProcessingEnvironment processingEnv) {
+        this.processingEnv = processingEnv;
+        this.typeUtils = processingEnv.getTypeUtils();
+        this.logger = Logger.getInstance(processingEnv.getMessager());
+        this.elements = processingEnv.getElementUtils();
+    }
 
     @Override
     public R visit(Element e, P p) {

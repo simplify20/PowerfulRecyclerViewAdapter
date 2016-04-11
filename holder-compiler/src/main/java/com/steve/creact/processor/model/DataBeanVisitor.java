@@ -2,19 +2,13 @@ package com.steve.creact.processor.model;
 
 import com.steve.creact.annotation.DataBean;
 
-import java.util.List;
-
-import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.element.TypeParameterElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.MirroredTypeException;
-import javax.lang.model.type.NoType;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
-import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 
 /**
@@ -37,20 +31,20 @@ public class DataBeanVisitor extends ElementVisitorAdapter<BeanInfo, Void> {
         return instance;
     }
 
-    private ProcessingEnvironment processingEnv;
+
     private static volatile DataBeanVisitor instance;
 
     private DataBeanVisitor(ProcessingEnvironment processingEnv) {
-        this.processingEnv = processingEnv;
+        super(processingEnv);
     }
 
     @Override
     public BeanInfo visitType(TypeElement element, Void aVoid) {
         //check element type
-        checkElementType(element);
+        if (!VALIDATED_CLASS_NAME.equals(getQualifiedName(element)))
+            checkElementType(element, VALIDATED_CLASS_NAME);
         TypeMirror typeMirror = null;
         BeanInfo beanInfo = new BeanInfo();
-        Messager messager = processingEnv.getMessager();
         //get annotated Element info.
         String annotatedElementPackage = getPackageName(element);
         beanInfo.holderName = getSimpleName(element);
@@ -72,12 +66,10 @@ public class DataBeanVisitor extends ElementVisitorAdapter<BeanInfo, Void> {
                 TypeElement dataBeanElement = (TypeElement) declaredType.asElement();
                 beanInfo.dataPackage = getPackageName(dataBeanElement);
                 beanInfo.dataName = getSimpleName(dataBeanElement);
-                //Check type parameter of the Holder
-                checkElementTypeParameter(element, beanInfo);
             }
         }
         //log
-        messager.printMessage(Diagnostic.Kind.NOTE,
+        logger.log(Diagnostic.Kind.NOTE,
                 beanInfo.toString());
         return beanInfo;
     }
@@ -85,40 +77,27 @@ public class DataBeanVisitor extends ElementVisitorAdapter<BeanInfo, Void> {
 
     @Override
     public BeanInfo visitUnknown(Element e, Void aVoid) {
-        Messager messager = processingEnv.getMessager();
-        messager.printMessage(Diagnostic.Kind.NOTE,
+        logger.log(Diagnostic.Kind.NOTE,
                 "unknown Element type:" + e.getKind().name());
         return new BeanInfo();
     }
 
-    //check if the annotated type is subtype of the BaseRecyclerViewHolder
-    private void checkElementType(TypeElement element) {
-        TypeElement validated = processingEnv.getElementUtils().getTypeElement(VALIDATED_CLASS_NAME);
-        if (validated == null) {
-            throw new IllegalStateException("can not find validated type:" + VALIDATED_CLASS_NAME);
+    //check if checked type is subtype of the given superType
+    private void checkElementType(TypeElement checkedType, String superType) {
+        if (superType == null)
+            throw new IllegalArgumentException("super class name can not be null");
+        TypeMirror typeMirror = checkedType.getSuperclass();
+        switch (typeMirror.getKind()) {
+            case DECLARED:
+                TypeElement st = (TypeElement) typeUtils.asElement(typeMirror);
+                logger.log(Diagnostic.Kind.NOTE, "super class:" + getQualifiedName(st));
+                if (superType.equals(getQualifiedName(st)))
+                    return;
+                //recursively check super element
+                checkElementType(st, superType);
         }
 
-        TypeMirror validatedTypeMirror = validated.asType();
-        TypeMirror currentTypeMirror = element.asType();
-        if (processingEnv.getTypeUtils().isSubtype(currentTypeMirror, validatedTypeMirror)) {
-            return;
-        }
         throw new IllegalStateException(ANNOTATED_WRONG_CLASS_ERROR);
-
     }
 
-    //check if annotated data type is subtype of type parameter's type in holder class
-    private void checkElementTypeParameter(TypeElement element, BeanInfo beanInfo) {
-        List<? extends TypeParameterElement> tpe = element.getTypeParameters();
-        if (tpe.size() > 0) {
-            TypeParameterElement parameterElement = tpe.get(0);
-            TypeMirror parameterTypeMirror = parameterElement.asType();
-            TypeElement annotatedTypeElement = processingEnv.getElementUtils().getTypeElement(beanInfo.dataClassName());
-            TypeMirror annotatedTypeMirror = annotatedTypeElement.asType();
-            boolean isSub = processingEnv.getTypeUtils().isSubtype(annotatedTypeMirror, parameterTypeMirror);
-            if (isSub)
-                return;
-        }
-        throw new IllegalStateException("type parameter of the [" + beanInfo.holderClassName() + "]is not the same as Annotation data class");
-    }
 }

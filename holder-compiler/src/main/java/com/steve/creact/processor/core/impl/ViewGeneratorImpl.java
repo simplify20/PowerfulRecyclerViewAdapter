@@ -1,6 +1,7 @@
 package com.steve.creact.processor.core.impl;
 
 import com.steve.creact.processor.core.Constants;
+import com.steve.creact.processor.core.Logger;
 import com.steve.creact.processor.core.Replacer;
 import com.steve.creact.processor.core.ViewGenerator;
 import com.steve.creact.processor.model.AbstractModel;
@@ -15,7 +16,6 @@ import java.io.Writer;
 import java.util.Map;
 
 import javax.annotation.processing.Filer;
-import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
@@ -27,41 +27,41 @@ import javax.tools.JavaFileObject;
  */
 public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
     protected ProcessingEnvironment processingEnvironment;
-    protected Messager messager;
+    protected Logger logger;
     protected BeanInfo beanInfo;
 
     @Override
     public void generate(AbstractModel<BeanInfo> model, ProcessingEnvironment processingEnv) {
-        messager = processingEnv.getMessager();
+        logger = Logger.getInstance(processingEnv.getMessager());
         processingEnvironment = processingEnv;
         //beanInfo is initialized by AbstractModel
         beanInfo = model.getRealModel();
         if (beanInfo == null) {
-            messager.printMessage(Diagnostic.Kind.NOTE, "bean info is null,aborted");
+            logger.log(Diagnostic.Kind.NOTE, "bean info is null,aborted");
             return;
         }
         //load template
-        messager.printMessage(Diagnostic.Kind.NOTE, "load template file...");
+        logger.log(Diagnostic.Kind.NOTE, "load template file...");
         String template = loadTemplate();
         if ("".equals(template)) {
             return;
         }
-        //messager.printMessage(Diagnostic.Kind.NOTE, "template file:" + template);
+        //logger.log(Diagnostic.Kind.NOTE, "template file:" + template);
         //create file
-        messager.printMessage(Diagnostic.Kind.NOTE, "create source file...");
+        logger.log(Diagnostic.Kind.NOTE, "create source file...");
         JavaFileObject jfo = createFile();
         if (jfo == null) {
-            messager.printMessage(Diagnostic.Kind.NOTE, "create java file failed,aborted");
+            logger.log(Diagnostic.Kind.NOTE, "create java file failed,aborted");
             return;
         }
         //write file
-        messager.printMessage(Diagnostic.Kind.NOTE, "write source file...");
+        logger.log(Diagnostic.Kind.NOTE, "write source file...");
         try {
             writeFile(template, jfo.openWriter());
             String sourceFileName = beanInfo.beanClassName();
-            messager.printMessage(Diagnostic.Kind.NOTE, "generate source file successful:" + sourceFileName);
+            logger.log(Diagnostic.Kind.NOTE, "generate source file successful:" + sourceFileName);
         } catch (IOException e) {
-            messager.printMessage(Diagnostic.Kind.ERROR, "create file failed");
+            logger.log(Diagnostic.Kind.ERROR, "create file failed");
             e.printStackTrace();
         }
     }
@@ -75,7 +75,7 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
         String result = "";
         InputStream is = this.getClass().getClassLoader().getResourceAsStream(Constants.TEMPLATE_PATH);
         if (is == null) {
-            messager.printMessage(Diagnostic.Kind.ERROR, "open template file failed");
+            logger.log(Diagnostic.Kind.ERROR, "open template file failed");
             return "";
         }
         InputStreamReader inputStreamReader = new InputStreamReader(is);
@@ -89,7 +89,7 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
             }
             result = builder.toString();
         } catch (IOException e) {
-            messager.printMessage(Diagnostic.Kind.ERROR, "read template file failed");
+            logger.log(Diagnostic.Kind.ERROR, "read template file failed");
             e.printStackTrace();
         } finally {
             try {
@@ -114,7 +114,7 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
         try {
             result = filer.createSourceFile(beanInfo.beanClassName());
         } catch (IOException e) {
-            messager.printMessage(Diagnostic.Kind.ERROR, "create source file failed");
+            logger.log(Diagnostic.Kind.ERROR, "create source file failed");
             e.printStackTrace();
         }
         return result;
@@ -132,11 +132,11 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
         }
         BufferedWriter bufferedWriter = new BufferedWriter(writer);
         String output = this.replace(template, null);
-        //messager.printMessage(Diagnostic.Kind.NOTE, "output source file:" + output);
+        //logger.log(Diagnostic.Kind.NOTE, "output source file:" + output);
         try {
             bufferedWriter.append(output);
         } catch (IOException e) {
-            messager.printMessage(Diagnostic.Kind.ERROR, "write file failed");
+            logger.log(Diagnostic.Kind.ERROR, "write file failed");
             e.printStackTrace();
         } finally {
             try {

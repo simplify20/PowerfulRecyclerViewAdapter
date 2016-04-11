@@ -1,5 +1,8 @@
 .svn/
-.idea/
+/.idea
+.idea
+/.idea/workspace.xml
+/.idea/libraries
 *.iml
 
 # Files for the Dalvik VM

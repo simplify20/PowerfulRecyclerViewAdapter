@@ -13,6 +13,19 @@ public class BeanInfo {
     public String dataBeanPackage = "";
     public int layoutId;
 
+    //until methods
+    public String dataClassName() {
+        return dataPackage + "." + dataName;
+    }
+
+    public String holderClassName() {
+        return holderPackage + "." + holderName;
+    }
+
+    public String beanClassName() {
+        return dataBeanPackage + "." + dataBeanName;
+    }
+
     @Override
     public String toString() {
         return "BeanInfo{" +

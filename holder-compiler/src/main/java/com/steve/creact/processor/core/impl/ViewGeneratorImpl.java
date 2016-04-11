@@ -43,6 +43,9 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
         //load template
         messager.printMessage(Diagnostic.Kind.NOTE, "load template file...");
         String template = loadTemplate();
+        if ("".equals(template)) {
+            return;
+        }
         //messager.printMessage(Diagnostic.Kind.NOTE, "template file:" + template);
         //create file
         messager.printMessage(Diagnostic.Kind.NOTE, "create source file...");
@@ -55,7 +58,7 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
         messager.printMessage(Diagnostic.Kind.NOTE, "write source file...");
         try {
             writeFile(template, jfo.openWriter());
-            String sourceFileName = beanInfo.dataBeanPackage + "." + beanInfo.dataBeanName;
+            String sourceFileName = beanInfo.beanClassName();
             messager.printMessage(Diagnostic.Kind.NOTE, "generate source file successful:" + sourceFileName);
         } catch (IOException e) {
             messager.printMessage(Diagnostic.Kind.ERROR, "create file failed");
@@ -71,6 +74,10 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
     protected String loadTemplate() {
         String result = "";
         InputStream is = this.getClass().getClassLoader().getResourceAsStream(Constants.TEMPLATE_PATH);
+        if (is == null) {
+            messager.printMessage(Diagnostic.Kind.ERROR, "open template file failed");
+            return "";
+        }
         InputStreamReader inputStreamReader = new InputStreamReader(is);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
         try {
@@ -82,7 +89,7 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
             }
             result = builder.toString();
         } catch (IOException e) {
-            messager.printMessage(Diagnostic.Kind.ERROR, "load template file failed");
+            messager.printMessage(Diagnostic.Kind.ERROR, "read template file failed");
             e.printStackTrace();
         } finally {
             try {
@@ -105,7 +112,7 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
         JavaFileObject result = null;
         Filer filer = processingEnvironment.getFiler();
         try {
-            result = filer.createSourceFile(beanInfo.dataBeanPackage + "." + beanInfo.dataBeanName);
+            result = filer.createSourceFile(beanInfo.beanClassName());
         } catch (IOException e) {
             messager.printMessage(Diagnostic.Kind.ERROR, "create source file failed");
             e.printStackTrace();
@@ -143,8 +150,8 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
     @Override
     public String replace(String input, Map<String, String> replaceValues) {
         String output = input.replace(Constants.PACKAGE_NAME, beanInfo.dataBeanPackage);
-        output = output.replace(Constants.DATA_ENTITY_FULL_QUALIFIED_CLASS_NAME, beanInfo.dataPackage + "." + beanInfo.dataName);
-        output = output.replace(Constants.VIEW_HOLDER_FULL_QUALIFIED_CLASS_NAME, beanInfo.holderPackage + "." + beanInfo.holderName);
+        output = output.replace(Constants.DATA_ENTITY_FULL_QUALIFIED_CLASS_NAME, beanInfo.dataClassName());
+        output = output.replace(Constants.VIEW_HOLDER_FULL_QUALIFIED_CLASS_NAME, beanInfo.holderClassName());
         output = output.replace(Constants.DATA_BEAN_SIMPLE_CLASS_NAME, beanInfo.dataBeanName);
         output = output.replace(Constants.DATA_ENTITY_SIMPLE_CLASS_NAME, beanInfo.dataName);
         output = output.replace(Constants.VIEW_HOLDER_SIMPLE_CLASS_NAME, beanInfo.holderName);

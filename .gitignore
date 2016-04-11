@@ -1,5 +1,5 @@
 .svn/
-.idea/
+.idea
 *.iml
 
 # Files for the Dalvik VM

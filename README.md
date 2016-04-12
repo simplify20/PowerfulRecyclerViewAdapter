@@ -123,10 +123,10 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
 
 ```
 Screenshot:
-![screenshot1](http://img.blog.csdn.net/20160330174123392)
+![screenshot1](http://pan.baidu.com/s/1qXE0MQC)
 
 - For items have no data or only display static data,for example,just show a progressBar,use CommonDisplayBean which creates an instance of BaseRecyclerViewHolder
-![screenshot2](http://img.blog.csdn.net/20160330174155924)
+![screenshot2](http://pan.baidu.com/s/1jI1weUy)
 
 - Reuse ViewHolder and DataBean
 

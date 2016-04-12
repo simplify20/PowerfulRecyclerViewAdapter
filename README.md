@@ -226,12 +226,12 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
 	
 2.Use @DataBean on your ViewHolder(only for classes whose super class is BaseRecyclerViewHolder)
 
-3.Elements of DataBean：
+Elements of DataBean：
 
 - beanName->simple class name of the generated DataBean，String type;
 - data->type of data which wrapped by DataBean and used by ViewHolder，Class type.
 
-4.build the project，apt will generated the DataBean code for you,and generated TestDataBean like this:
+3.build the project，apt will generated the DataBean code for you,and generated TestDataBean like this:
 app\build\generated\source\apt\debug\ [package]\TestDataBean.java
 ```java
 package com.steve.creact.powerfuladapter.presentation.viewholder.databean;

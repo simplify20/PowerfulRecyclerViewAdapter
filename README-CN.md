@@ -122,9 +122,11 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
 
 ```
 效果：
+
 ![这里写图片描述](http://img.blog.csdn.net/20160412195405867)
 
 - 对于只展示静态数据或没有数据（无文字显示）的item，如只显示一个progressBar,使用CommonDisplayBean，默认创建BaseRecyclerViewHolder
+
 ![这里写图片描述](http://img.blog.csdn.net/20160412195422029)
 
 - 复用ViewHolder和DataBean

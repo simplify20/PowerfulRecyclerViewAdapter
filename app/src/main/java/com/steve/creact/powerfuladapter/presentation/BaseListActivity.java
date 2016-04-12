@@ -23,6 +23,7 @@ import com.steve.creact.powerfuladapter.presentation.viewholder.ICategory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -99,12 +100,12 @@ public class BaseListActivity extends AppCompatActivity {
 
     //fake data
     private Map<ICategory, List<Book>> fetchSourceData() {
-        Map<ICategory, List<Book>> result = new HashMap<>();
+        Map<ICategory, List<Book>> result = new LinkedHashMap<>();
         for (int i = 0; i < 5; i++) {
             ICategory category = i == 0 ? new MockCategory() : new Category(i, "category" + i);
             List<Book> books = new ArrayList<>(10);
             for (int j = 0; j < 10; j++) {
-                Book book = new Book(j + 1, "book" + j, (200.0f + j), 100);
+                Book book = new Book(j + 1, "book" + j, (200.5f + j), 100);
                 books.add(book);
             }
             result.put(category, books);

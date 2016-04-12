@@ -6,18 +6,18 @@ An implement for RecyclerView.Adapter that supports any kind of list items, is a
 **Features**
 
 - Bind Data(Model) and ViewHolder using DataBean,DataBean is a Wrapper of Data(Model);
-- DataBean control creation of the ViewHolder and bind data to the ViewHolder;
+- DataBean control creation of the ViewHolder and binds data to the ViewHolder;
 - Separate part of Adapter' responsibilities to DataBean，such as creating an instance of the ViewHolder and binding data to ViewHolder.Adapter only operate data;
 - Remove all switch..case statemens in onCreateViewHolder() or onBindViewHolder() taking advantage of Polymorphism;
 - You do not need to write any Recycler.Adapters after you use this powerful common adapter;
-- A list can have any kind of items(or viewHolders).
+- Your RecyclerView can have any kind of items(or viewHolders).
 
 **New features**
 
 	Added in 2016-4-10：
 	@DataBean Annotation(dev branch)
-	Use apt(Annotation Processor Tool) like Dagger2 and DataBinding to process annotations and generate DataBean source code for you,you don't need to write databean classes anymore,that's a progress.
-	see [Use @DataBean] module
+	Use apt(Annotation Processor Tool) like used in Dagger2 and DataBinding to process annotations and generate DataBean source code for you,you don't need to write databean classes anymore,that's a progress.
+	see [Use @DataBean] guide module
 
 dev branch：https://github.com/simplify20/PowerfulRecyclerViewAdapter/tree/dev
 ###Class diagram：
@@ -259,7 +259,8 @@ public class TestDataBean extends BaseDataBean<Book, BookTitleViewHolder> {
 Just like handwriting code!
 
 **problems may occur when you build:**
-can't delete holder-compiler.jar->open task manager，end process of java se，rebuild.
+
+- can't delete holder-compiler.jar->open task manager，end process of java se，rebuild.
 
 ###Contact Me:
 

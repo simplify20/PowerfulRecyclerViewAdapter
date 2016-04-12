@@ -9,7 +9,7 @@ import com.steve.creact.powerfuladapter.presentation.viewholder.ICategory;
  */
 public class Category implements ICategory {
     private long id;
-    private String name;
+    private String name = "";
 
     public Category(long id, String name) {
         this.id = id;
@@ -40,5 +40,10 @@ public class Category implements ICategory {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return (o instanceof Category) && (this.id == ((Category) o).getId()) && this.name.equals(((Category) o).getName());
     }
 }

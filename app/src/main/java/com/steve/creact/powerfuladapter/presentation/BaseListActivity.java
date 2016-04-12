@@ -18,9 +18,13 @@ import com.steve.creact.powerfuladapter.data.Category;
 import com.steve.creact.powerfuladapter.data.MockCategory;
 import com.steve.creact.powerfuladapter.presentation.displaybean.BookTitleBean;
 import com.steve.creact.powerfuladapter.presentation.displaybean.CategoryBean;
+import com.steve.creact.powerfuladapter.presentation.viewholder.ICategory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class BaseListActivity extends AppCompatActivity {
@@ -36,33 +40,38 @@ public class BaseListActivity extends AppCompatActivity {
         initData();
     }
 
+    /**
+     * Convert normal DataSet to DisplayBeans
+     * If the data set which  returned by the server in the same order as in the list on ui,
+     * this process will be easy
+     */
     protected void initData() {
-        List<DisplayBean> bookTitleBeans = new ArrayList<>(20);
-        //add progress display bean
+        //fake data
+        Map<ICategory, List<Book>> sourceData = fetchSourceData();
+        //display beans
+        List<DisplayBean> displayBeans = new ArrayList<>(20);
+
+        //Add a ProgressBar DisplayBean to show a ProgressBar in the top of the list
         CommonDisplayBean progressBean = new CommonDisplayBean(R.layout.item_progress);
-        bookTitleBeans.add(progressBean);
-        Random random = new Random();
-        for (int i = 0; i < 20; i++) {
-            if (i % 5 == 0) {
-                //add category
-                if (i == 0) {
-                    //add mock category
-                    MockCategory mockCategory = new MockCategory();
-                    CategoryBean categoryBean = new CategoryBean(mockCategory);
-                    bookTitleBeans.add(categoryBean);
-                } else {
-                    Category category = new Category(i / 5, "category" + (i / 5 + 1));
-                    CategoryBean categoryBean = new CategoryBean(category);
-                    bookTitleBeans.add(categoryBean);
+        displayBeans.add(progressBean);
+
+        //add categories and books to the list
+        for (Iterator<Map.Entry<ICategory, List<Book>>> iterator = sourceData.entrySet().iterator(); iterator.hasNext(); ) {
+            Map.Entry<ICategory, List<Book>> entry = iterator.next();
+            ICategory category = entry.getKey();
+            //add category to the list
+            displayBeans.add(new CategoryBean(category));
+            List<Book> books = entry.getValue();
+            //add books to the category
+            if (category != null && books != null) {
+                for (Book book : books) {
+                    BookTitleBean bookTitleBean = new BookTitleBean(book);
+                    displayBeans.add(bookTitleBean);
                 }
             }
-            float price = random.nextFloat() * 200 + 1.0f;
-            Book book = new Book(i, "book" + i, (float) (Math.round(price * 100) / 100.0), (i + 50));
-            BookTitleBean bookTitleBean = new BookTitleBean(book);
-            bookTitleBeans.add(bookTitleBean);
         }
-        //load data
-        adapter.loadData(bookTitleBeans);
+        //load data and show data in the list
+        adapter.loadData(displayBeans);
     }
 
     protected void initViews() {
@@ -86,6 +95,21 @@ public class BaseListActivity extends AppCompatActivity {
 
     protected CommonRecyclerAdapter getAdapter() {
         return new CommonRecyclerAdapter();
+    }
+
+    //fake data
+    private Map<ICategory, List<Book>> fetchSourceData() {
+        Map<ICategory, List<Book>> result = new HashMap<>();
+        for (int i = 0; i < 5; i++) {
+            ICategory category = i == 0 ? new MockCategory() : new Category(i, "category" + i);
+            List<Book> books = new ArrayList<>(10);
+            for (int j = 0; j < 10; j++) {
+                Book book = new Book(j + 1, "book" + j, (200.0f + j), 100);
+                books.add(book);
+            }
+            result.put(category, books);
+        }
+        return result;
     }
 
 }

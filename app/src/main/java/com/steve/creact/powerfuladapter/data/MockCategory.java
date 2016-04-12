@@ -8,13 +8,21 @@ import com.steve.creact.powerfuladapter.presentation.viewholder.ICategory;
  * @email:yangjianjun@117go.com
  */
 public class MockCategory implements ICategory {
+    private long id = 0;
+    private String name = "mockCategory";
+
     @Override
     public String getName() {
-        return "mockCategory";
+        return name;
     }
 
     @Override
     public long getId() {
-        return 0;
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return (o instanceof Category) && (this.id == ((Category) o).getId()) && this.name.equals(((Category) o).getName());
     }
 }

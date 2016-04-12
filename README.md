@@ -127,6 +127,7 @@ Screenshot:
 ![screenshot1](http://img.blog.csdn.net/20160412195405867)
 
 - For items have no data or only display static data,for example,just show a progressBar,use CommonDisplayBean which creates an instance of BaseRecyclerViewHolder
+
 ![screenshot2](http://img.blog.csdn.net/20160412195422029)
 
 - Reuse ViewHolder and DataBean

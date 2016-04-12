@@ -4,13 +4,13 @@
 
 **特性：**
 
-- 使用DataBean关联Data(Model)与ViewHolder;
+- 使用DataBean关联Data(Model)与ViewHolder,DataBean相当于Data的Wrapper;
 - DataBean控制ViewHolder的创建以及数据到ViewHolder的绑定；
 - Adapter的一部分职能由DataBean承担，如创建不同类型的ViewHolder以及绑定数据到ViewHolder,Adapter只用维护数据的相关操作即可；
 - Adapter的onCreateViewHolder和onBindViewHolder中没有switch..case语句，通过DataBean的多态性实现不同的创建和绑定；
 - 使用了本项目的Adapter,使用RecyclerView时就不用写Adapter了；
-- 支持任何种类的ViewHolder(继承自BaseRecyclerViewHolder)
-- 使用接口可以提高ViewHolder及Data的复用性，并且利于测试。
+- 一个列表可以有任意多种item(对应于任意种类的ViewHolder)
+- 使用接口关联DataBean和ViewHolder可以提高ViewHolder及Data的复用性，并且利于测试。
 
 **新特性：**
 
@@ -55,65 +55,42 @@ public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 }
 ```
 - 根据item内容，继承BaseRecyclerViewHolder，实现自定义ViewHolder；
+
 ```java
-public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
-	//declare LAYOUT_ID
-    public static final int LAYOUT_ID = R.layout.item_book_title;
-    private TextView nameTxt;
-    private TextView priceTxt;
-
-    public BookTitleViewHolder(View itemView) {
-        super(itemView);
-    }
-
-    @Override
-    protected void initView() {
-        nameTxt = findView(R.id.name);
-        priceTxt = findView(R.id.price);
-    }
-
-    @Override
-    public void setData(Book data) {
-        if (data == null)
-            return;
-        nameTxt.setText(data.getName());
-        priceTxt.setText(String.valueOf(data.getPrice()));
-    }
-}
-```
-- 构建用于显示的数据集：data set -> displaybean set
-```java
+/**
+     * Convert normal DataSet to DisplayBeans
+     * If the data set which  returned by the server in the same order as in the list on ui,
+     * this process will be easy
+     */
     protected void initData() {
-	    //init displaybean set
-        List<DisplayBean> bookTitleBeans = new ArrayList<>(20);
-        //add progress display bean
+        //fake data
+        Map<ICategory, List<Book>> sourceData = fetchSourceData();
+        //display beans
+        List<DisplayBean> displayBeans = new ArrayList<>(20);
+
+        //Add a ProgressBar DisplayBean to show a ProgressBar in the top of the list
         CommonDisplayBean progressBean = new CommonDisplayBean(R.layout.item_progress);
-        bookTitleBeans.add(progressBean);
-        Random random = new Random();
-        for (int i = 0; i < 20; i++) {
-            if (i % 5 == 0) {
-                //add category
-                if (i == 0) {
-                    //add mock category
-                    MockCategory mockCategory = new MockCategory();
-                    CategoryBean categoryBean = new CategoryBean(mockCategory);
-                    bookTitleBeans.add(categoryBean);
-            
-                }
-                else{
-	                Category category = new Category(i / 5, "category" + (i / 5 + 1));
-	                CategoryBean categoryBean = new CategoryBean(category);
-	                bookTitleBeans.add(categoryBean);
+        displayBeans.add(progressBean);
+
+        //add categories and books to the list
+        for (Iterator<Map.Entry<ICategory, List<Book>>> iterator = sourceData.entrySet().iterator(); iterator.hasNext(); ) {
+            Map.Entry<ICategory, List<Book>> entry = iterator.next();
+            ICategory category = entry.getKey();
+            //add category to the list
+            displayBeans.add(new CategoryBean(category));
+            List<Book> books = entry.getValue();
+            //add books to the category
+            if (category != null && books != null) {
+                for (Book book : books) {
+                    BookTitleBean bookTitleBean = new BookTitleBean(book);
+                    displayBeans.add(bookTitleBean);
                 }
             }
-            float price = random.nextFloat() * 200 + 1.0f;
-            Book book = new Book(i, "book" + i, (float) (Math.round(price * 100) / 100.0), (i + 50));
-            BookTitleBean bookTitleBean = new BookTitleBean(book);
-            bookTitleBeans.add(bookTitleBean);
         }
-        //load data
-        adapter.loadData(bookTitleBeans);
+        //load data and show data in the list
+        adapter.loadData(displayBeans);
     }
+
 ```
 效果：
 ![这里写图片描述](http://img.blog.csdn.net/20160330174123392)

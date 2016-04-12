@@ -26,15 +26,15 @@ dev branch：https://github.com/simplify20/PowerfulRecyclerViewAdapter/tree/dev
 ![Class diagram](http://img.blog.csdn.net/20160330181333561)
 ###Important classes：
 
-`class CommonRecyclerAdapter`:common adapter whose super class is RecyclerView.Adapter，support inserting and droping datas and support any kind of items.
+`class CommonRecyclerAdapter`:common adapter whose super class is RecyclerView.Adapter，supports inserting and droping datas and supports any kind of items.
 
-`interface DisplayBean`:use to create an instance of the ViewHolder
+`interface DisplayBean`:used to create an instance of the ViewHolder
 
-`interface DataBean`:extends from DisplayBean，use to bind data to viewholders
+`interface DataBean`:extends from DisplayBean，used to bind data to viewholders
 
 ###How To：
 
-- Declare CommonRecyclerAdapter as your RecyclerView adapter;
+- Declare CommonRecyclerAdapter as your RecyclerView's adapter;
 ```java
  protected CommonRecyclerAdapter adapter;
  ...
@@ -122,10 +122,10 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
     }
 
 ```
-Screenshot：
+Screenshot:
 ![screenshot1](http://img.blog.csdn.net/20160330174123392)
 
-- For items have no data or only display static data，for example,just show a progressBar,use CommonDisplayBean which creates an instance of BaseRecyclerViewHolder
+- For items have no data or only display static data,for example,just show a progressBar,use CommonDisplayBean which creates an instance of BaseRecyclerViewHolder
 ![screenshot2](http://img.blog.csdn.net/20160330174155924)
 
 - Reuse ViewHolder and DataBean
@@ -187,7 +187,7 @@ public interface ICategory {
 
 
 ### Use @DataBean
-Because BaseDataBean and its super classes have done much work for us，our DataBean's code is very simple,only have couple of lines.Simpler than Simpler,we use apt to genreate your DataBean source code.The tool is holder-compiler.Now you can use @DataBean on your ViewHolder,The apt will generate corresponding code for you as you wanted，it's very convenient.
+Because BaseDataBean and its super classes have done much work for us，our DataBean's code is very simple,only have couple of lines.Simpler than Simpler,we use apt to genreate your DataBean source code.The tool is holder-compiler.Now you can use @DataBean on your ViewHolder,The apt will generate corresponding source code for you as you wanted，it's very convenient.
 
 
 **How to:take BookTitleViewHolder as an example**
@@ -222,14 +222,14 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
 1.Extend BaseRecyclerViewHolder to create your ViewHolder;
 
 	Notes:public field LAYOUT_ID of your ViewHolder is 
-required ，and the name must be LAYOUT_ID(apt need this constant).
-2.Use @DataBean on your ViewHolder(only for class whose super class is BaseRecyclerViewHolder)
+	required ,and the name must be LAYOUT_ID(apt need this constant).
+2.Use @DataBean on your ViewHolder(only for classes whose super class is BaseRecyclerViewHolder)
 3.Elements of DataBean：
 
 - beanName->simple class name of the generated DataBean，String type;
-- data->class of data which wrapped by DataBean and used by ViewHolder，Class type.
+- data->type of data which wrapped by DataBean and used by ViewHolder，Class type.
 
-4.build the project，apt will generated the DataBean code for you,and the generated TestDataBean:
+4.build the project，apt will generated the DataBean code for you,and generated TestDataBean like this:
 app\build\generated\source\apt\debug\ [package]\TestDataBean.java
 ```java
 package com.steve.creact.powerfuladapter.presentation.viewholder.databean;

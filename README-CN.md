@@ -224,12 +224,13 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
 
 	注:ViewHolder中LAYOUT_ID字段是必填的，且命名限定为LAYOUT_ID,是一个公有常量，因为生成的代码要引用ViewHolder的这个字段。
 2.使用@DataBean注解你的ViewHolder(只能注解类，详见DataBean注解的源码，在holder-annotation module下)
-3.DataBean的几个属性：
+
+DataBean的几个属性：
 
 - beanName->要生成的DataBean的简单类名，String类型；
 - data->要绑定的数据的类型，Class类型。
 
-4.build项目，注解处理器会在编译器获得注解信息，并生成代码，生成的TestDataBean如下：
+3.build项目，注解处理器会在编译器获得注解信息，并生成代码，生成的TestDataBean如下：
 app\build\generated\source\apt\debug\ [package]\TestDataBean.java
 ```java
 package com.steve.creact.powerfuladapter.presentation.viewholder.databean;

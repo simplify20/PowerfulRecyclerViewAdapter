@@ -57,6 +57,35 @@ public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 - 根据item内容，继承BaseRecyclerViewHolder，实现自定义ViewHolder；
 
 ```java
+public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
+	//declare LAYOUT_ID
+    public static final int LAYOUT_ID = R.layout.item_book_title;
+    private TextView nameTxt;
+    private TextView priceTxt;
+
+    public BookTitleViewHolder(View itemView) {
+        super(itemView);
+    }
+
+    @Override
+    protected void initView() {
+        nameTxt = findView(R.id.name);
+        priceTxt = findView(R.id.price);
+    }
+
+    @Override
+    public void setData(Book data) {
+        if (data == null)
+            return;
+        nameTxt.setText(data.getName());
+        priceTxt.setText(String.valueOf(data.getPrice()));
+    }
+}
+```
+
+- 构建用于显示的数据集：data set -> displaybean set
+
+```java
 /**
      * Convert normal DataSet to DisplayBeans
      * If the data set which  returned by the server in the same order as in the list on ui,

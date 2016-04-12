@@ -6,10 +6,10 @@ An implement for RecyclerView.Adapter that supports any kind of list items, is a
 **Features**
 
 - Bind Data(Model) and ViewHolder using DataBean,DataBean is a Wrapper of Data(Model);
-- DataBean control creation of the ViewHolder and binds data to the ViewHolder;
+- DataBean controls creation of the ViewHolder and binds data to the ViewHolder;
 - Separate part of Adapter' responsibilities to DataBean，such as creating an instance of the ViewHolder and binding data to ViewHolder.Adapter only operate data;
 - Remove all switch..case statemens in onCreateViewHolder() or onBindViewHolder() taking advantage of Polymorphism;
-- You do not need to write any Recycler.Adapters after you use this powerful common adapter;
+- You don't need to write any Recycler.Adapters after you use this powerful common adapter;
 - Your RecyclerView can have any kind of items(or viewHolders).
 
 **New features**

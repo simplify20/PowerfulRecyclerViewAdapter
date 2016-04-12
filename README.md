@@ -3,7 +3,7 @@
 An implement for RecyclerView.Adapter that supports any kind of list items, is a common Adapter.
 
 
-**Features**
+###Features
 
 - Bind Data(Model) and ViewHolder using DataBean,DataBean is a Wrapper of Data(Model);
 - DataBean controls creation of the ViewHolder and binds data to the ViewHolder;
@@ -12,7 +12,7 @@ An implement for RecyclerView.Adapter that supports any kind of list items, is a
 - You don't need to write any Recycler.Adapters after you use this powerful common adapter;
 - Your RecyclerView can have any kind of items(or viewHolders).
 
-**New features**
+###New features
 
 	Added in 2016-4-10：
 	@DataBean Annotation(dev branch)
@@ -223,7 +223,9 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
 
 	Notes:public field LAYOUT_ID of your ViewHolder is 
 	required ,and the name must be LAYOUT_ID(apt need this constant).
+	
 2.Use @DataBean on your ViewHolder(only for classes whose super class is BaseRecyclerViewHolder)
+
 3.Elements of DataBean：
 
 - beanName->simple class name of the generated DataBean，String type;

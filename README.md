@@ -25,10 +25,7 @@ A RecyclerView.Adapter implementation  that supports any kind of list items, is 
 	see [Use @DataBean] guide module
 
 dev branch：https://github.com/simplify20/PowerfulRecyclerViewAdapter/tree/dev
-###Class diagram：
-	tips:if the image is not clear,save it to local and use a picture browser to view.
 
-![Class diagram](http://img.blog.csdn.net/20160330181333561)
 ###Important classes：
 
 `class CommonRecyclerAdapter`:common adapter whose super class is RecyclerView.Adapter，supports inserting and droping datas and supports any kind of items.

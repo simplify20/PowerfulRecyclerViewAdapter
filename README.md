@@ -14,13 +14,13 @@ A RecyclerView.Adapter implementation  that supports any kind of list items, is 
 
 ###New features
 
-    Added on 4/16/2016:
+    Added on 4/16/2016:(dev branch)
     1.add some useful apis in BaseRecyclerViewHolder,such as setText(id,text),setImageBitmap(id,bitmap),etc to simplify your ViewHolder coding;
     2.add some useful and friendly apis in BaseRecyclerAdapter,such as removeData(data),removeFirst(),removeLast(),etc;
     3.use a SparseArray to cache views in the ViewHolder,see BaseRecyclerViewHolder for detail.
 
-	Added on 4/10/2016：
-	@DataBean Annotation(dev branch)
+	Added on 4/10/2016:(dev branch)
+	@DataBean Annotation
 	Use apt(Annotation Processor Tool) like used in Dagger2 and DataBinding to process annotations and generate DataBean source code for you,you don't need to write databean classes anymore,that's a progress.
 	see [Use @DataBean] guide module
 

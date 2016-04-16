@@ -13,9 +13,12 @@ An implement for RecyclerView.Adapter that supports any kind of list items, is a
 - Your RecyclerView can have any kind of items(or viewHolders).
 
 ###New features
-
-	Added in 2016-4-10：
-	@DataBean Annotation(dev branch)
+	Added on 4/16/2016:
+	1.add some useful apis in BaseRecyclerViewHolder,such as setText(id,text),setImageBitmap(id,bitmap),etc to simplify your ViewHolder coding;
+	2.add some useful and friendly apis in BaseRecyclerAdapter,such as removeData(data),removeFirst(),removeLast(),etc;
+	3.use a SparseArray to cache views in the ViewHolder,see BaseRecyclerViewHolder for detail.
+	Added on 4/10/2016:
+	1.@DataBean Annotation(dev branch)
 	Use apt(Annotation Processor Tool) like used in Dagger2 and DataBinding to process annotations and generate DataBean source code for you,you don't need to write databean classes anymore,that's a progress.
 	see [Use @DataBean] guide module
 
@@ -58,28 +61,21 @@ public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 - Extend BaseRecyclerViewHolder，create your ViewHolder;
 
 ```java
+@DataBean(beanName = "BookTitleBean", data = Book.class)
 public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
-	//declare LAYOUT_ID
+
     public static final int LAYOUT_ID = R.layout.item_book_title;
-    private TextView nameTxt;
-    private TextView priceTxt;
 
     public BookTitleViewHolder(View itemView) {
         super(itemView);
     }
 
     @Override
-    protected void initView() {
-        nameTxt = findView(R.id.name);
-        priceTxt = findView(R.id.price);
-    }
-
-    @Override
     public void setData(Book data) {
         if (data == null)
             return;
-        nameTxt.setText(data.getName());
-        priceTxt.setText(String.valueOf(data.getPrice()));
+        setText(R.id.name, data.getName());
+        setText(R.id.price, String.valueOf(data.getPrice()));
     }
 }
 ```
@@ -164,25 +160,19 @@ public interface ICategory {
  
  ####`CategoryViewHolder`
 ```java
- public class CategoryViewHolder extends BaseRecyclerViewHolder<ICategory> {
+@DataBean(beanName = "CategoryBean",data = ICategory.class)
+public class CategoryViewHolder extends BaseRecyclerViewHolder<ICategory> {
     public static final int LAYOUT_ID = R.layout.item_book_catagory;
-    protected TextView categoryNameTxt;
-
     public CategoryViewHolder(View itemView) {
         super(itemView);
     }
-
-    @Override
-    protected void initView() {
-        categoryNameTxt = findView(R.id.book_category);
-    }
-
     @Override
     public void setData(ICategory category) {
         if (category == null)
             return;
-        categoryNameTxt.setText(category.getName());
+        setText(R.id.book_category,category.getName());
     }
+
 }
 ```
 
@@ -195,29 +185,21 @@ Because BaseDataBean and its super classes have done much work for us，our Data
 **How to:take BookTitleViewHolder as an example**
 ```java
 //use DataBean annotation to annotate your ViewHolder
-@DataBean(beanName = "TestDataBean", data = Book.class)
+@DataBean(beanName = "BookTitleBean", data = Book.class)
 public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
-	//declare LAYOUT_ID,the name must be LAYOUT_ID
+
     public static final int LAYOUT_ID = R.layout.item_book_title;
-    private TextView nameTxt;
-    private TextView priceTxt;
 
     public BookTitleViewHolder(View itemView) {
         super(itemView);
     }
 
     @Override
-    protected void initView() {
-        nameTxt = findView(R.id.name);
-        priceTxt = findView(R.id.price);
-    }
-
-    @Override
     public void setData(Book data) {
         if (data == null)
             return;
-        nameTxt.setText(data.getName());
-        priceTxt.setText(String.valueOf(data.getPrice()));
+        setText(R.id.name, data.getName());
+        setText(R.id.price, String.valueOf(data.getPrice()));
     }
 }
 ```
@@ -248,9 +230,9 @@ import com.steve.creact.powerfuladapter.presentation.viewholder.BookTitleViewHol
  * Generated DataBean for BookTitleViewHolder
  * Powered by Holder-Compiler
  */
-public class TestDataBean extends BaseDataBean<Book, BookTitleViewHolder> {
+public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 
-    public TestDataBean(Book data) {
+    public BookTitleBean(Book data) {
         super(data);
     }
 

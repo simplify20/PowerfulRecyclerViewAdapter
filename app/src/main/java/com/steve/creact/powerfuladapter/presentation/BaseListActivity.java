@@ -16,6 +16,8 @@ import com.steve.creact.powerfuladapter.R;
 import com.steve.creact.powerfuladapter.data.Book;
 import com.steve.creact.powerfuladapter.data.Category;
 import com.steve.creact.powerfuladapter.data.MockCategory;
+import com.steve.creact.powerfuladapter.presentation.viewholder.databean.BookTitleBean;
+import com.steve.creact.powerfuladapter.presentation.viewholder.databean.CategoryBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,7 @@ public class BaseListActivity extends AppCompatActivity {
                 }
             }
             float price = random.nextFloat() * 200 + 1.0f;
+            //add book
             Book book = new Book(i, "book" + i, (float) (Math.round(price * 100) / 100.0), (i + 50));
             BookTitleBean bookTitleBean = new BookTitleBean(book);
             bookTitleBeans.add(bookTitleBean);

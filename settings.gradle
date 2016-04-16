@@ -1,1 +1,1 @@
-include ':holder-annotations', ':holder-compiler', ':app', ':library'
+include ':app', ':holder-annotations', ':holder-compiler', ':library'

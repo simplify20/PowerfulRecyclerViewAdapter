@@ -17,6 +17,12 @@ public class CommonDisplayBean extends BaseDisplayBean<BaseRecyclerViewHolder> {
 
     @Override
     public BaseRecyclerViewHolder createHolder(ViewGroup parent) {
-        return new BaseRecyclerViewHolder(getView(parent, layoutId));
+        return new BaseRecyclerViewHolder(getView(parent, layoutId)){
+
+            @Override
+            public void setData(Object data) {
+                //do nothing
+            }
+        };
     }
 }

@@ -213,8 +213,8 @@ Elements of DataBean：
 - beanName->simple class name of the generated DataBean，String type;
 - data->type of data which wrapped by DataBean and used by ViewHolder，Class type.
 
-3.build the project，apt will generated the DataBean code for you,and generated TestDataBean like this:
-app\build\generated\source\apt\debug\ [package]\TestDataBean.java
+3.build the project，apt will generated the DataBean code for you,and generated BookTitleBean like this:
+app\build\generated\source\apt\debug\ [package]\BookTitleBean.java
 ```java
 package com.steve.creact.powerfuladapter.presentation.viewholder.databean;
 

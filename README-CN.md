@@ -25,9 +25,7 @@ RecyclerView.Adapter.的一种实现,支持任意类型的Item，是一个通用
     参考下文[使用DataBean注解]
 
 
-###类图：
-	tips:图片看不清可右键另存或新标签页打开后查看
-![这里写图片描述](http://img.blog.csdn.net/20160330181333561)
+
 ###主要类：
 
 `class CommonRecyclerAdapter`：万能适配器，支持插入和删除数据,支持任意类型的ViewHolder(限于RecyclerView)

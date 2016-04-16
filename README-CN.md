@@ -20,7 +20,7 @@ RecyclerView.Adapter.的一种实现,支持任意类型的Item，是一个通用
     3.使用SparseArray缓存ViewHolder中的View,如需了解细节，请看BaseRecyclerViewHolder的源码。
     
     2016-4-10 添加：
-    新增 @DataBean 注解,目前在[dev分支]上
+    新增 @DataBean 注解
     使用类似Dagger2和DataBinding的编译期注解处理器，在编译器根据模板生成DataBean代码（模板引擎），这样可以省去编写DataBean的成本。
     参考下文[使用DataBean注解]
 

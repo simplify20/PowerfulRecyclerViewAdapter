@@ -60,7 +60,7 @@ public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 - Extend BaseRecyclerViewHolder，create your ViewHolder;
 
 ```java
-@DataBean(beanName = "BookTitleBean", data = Book.class)
+
 public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
 
     public static final int LAYOUT_ID = R.layout.item_book_title;
@@ -159,7 +159,6 @@ public interface ICategory {
  
  ####`CategoryViewHolder`
 ```java
-@DataBean(beanName = "CategoryBean",data = ICategory.class)
 public class CategoryViewHolder extends BaseRecyclerViewHolder<ICategory> {
     public static final int LAYOUT_ID = R.layout.item_book_catagory;
     public CategoryViewHolder(View itemView) {

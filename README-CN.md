@@ -212,8 +212,8 @@ DataBean的几个属性：
 - beanName->要生成的DataBean的简单类名，String类型；
 - data->要绑定的数据的类型，Class类型。
 
-3.build项目，注解处理器会在编译器获得注解信息，并生成代码，生成的TestDataBean如下：
-app\build\generated\source\apt\debug\ [package]\TestDataBean.java
+3.build项目，注解处理器会在编译器获得注解信息，并生成代码，生成的BookTitleBean如下：
+app\build\generated\source\apt\debug\ [package]\BookTitleBean.java
 ```java
 package com.steve.creact.powerfuladapter.presentation.viewholder.databean;
 

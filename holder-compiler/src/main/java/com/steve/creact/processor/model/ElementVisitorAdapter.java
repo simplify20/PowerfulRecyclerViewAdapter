@@ -14,7 +14,7 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
 /**
- * See ElementVisitor document
+ * @see ElementVisitor
  * Created by Administrator on 2016/4/10.
  */
 public abstract class ElementVisitorAdapter<R, P> implements ElementVisitor<R, P> {

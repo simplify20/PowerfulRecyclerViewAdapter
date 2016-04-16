@@ -13,20 +13,19 @@ A RecyclerView.Adapter implementation that supports any kind of list items, is a
 - Your RecyclerView can have any kind of items(or viewHolders).
 
 ###New features
+
 	Added on 4/16/2016:
 	1.add some useful apis in BaseRecyclerViewHolder,such as setText(id,text),setImageBitmap(id,bitmap),etc to simplify your ViewHolder coding;
 	2.add some useful and friendly apis in BaseRecyclerAdapter,such as removeData(data),removeFirst(),removeLast(),etc;
 	3.use a SparseArray to cache views in the ViewHolder,see BaseRecyclerViewHolder for detail.
+	
 	Added on 4/10/2016:
 	1.@DataBean Annotation(dev branch)
 	Use apt(Annotation Processor Tool) like used in Dagger2 and DataBinding to process annotations and generate DataBean source code for you,you don't need to write databean classes anymore,that's a progress.
 	see [Use @DataBean] guide module
 
 
-###Class diagram：
-	tips:if the image is not clear,save it to local and use a picture browser to view.
 
-![Class diagram](http://img.blog.csdn.net/20160330181333561)
 ###Important classes：
 
 `class CommonRecyclerAdapter`:common adapter whose super class is RecyclerView.Adapter，supports inserting and droping datas and supports any kind of items.

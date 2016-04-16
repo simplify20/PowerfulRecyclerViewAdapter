@@ -10,20 +10,24 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author:YJJ
- * @date:2015/10/15
- * @email:yangjianjun@117go.com
+ * BaseAdapter which supports insert|add|get operations on DataSet
+ * Also support item animation.
  */
 public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> implements IDataConsumer<T>, IDataArranger<T> {
+    //DataSet
     protected List<T> data = new LinkedList<>();
 
     @Override
     public T getItem(int position) {
+        if (position < 0 || position > data.size() - 1)
+            return null;
         return data.get(position);
     }
 
     @Override
     public void loadData(List<? extends T> datas) {
+        if (datas == null || datas.size() == 0)
+            return;
         this.data.clear();
         this.data.addAll(datas);
         notifyDataSetChanged();
@@ -31,37 +35,60 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return data == null ? 0 : data.size();
     }
 
     @Override
-    public void removeDatas(int[] positions) {
+    public void removeData(int[] positions) {
         if (positions == null || positions.length == 0) {
             return;
         }
         int length = positions.length;
+        boolean useAnimation = useItemAnimation();
         for (int i = 0; i < length; i++) {
-            removeData(positions[i], true);
+            removeData(positions[i],useAnimation);
         }
-        if (!useItemAnimation()) {
+        if (!useAnimation) {
             notifyDataSetChanged();
         }
     }
 
-    /**
-     * @param position
-     * @param oneOfMore
-     */
-    @Override
-    public void removeData(int position, boolean oneOfMore) {
-        if (position < 0 || position > data.size())
+    //if we don't use animation ,no need call notifyDataSetChanged() every time
+    private void removeData(int position,boolean useAnimation){
+
+        if (position < 0 || position > data.size() - 1)
             return;
         data.remove(position);
-        if (useItemAnimation()) {
+        if (useAnimation)
             notifyItemRemoved(position);
-        } else if (!oneOfMore) {
-            notifyDataSetChanged();
-        }
+    }
+
+
+    @Override
+    public void removeData(int position) {
+        if (position < 0 || position > data.size() - 1)
+            return;
+        data.remove(position);
+        if (useItemAnimation())
+            notifyItemRemoved(position);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void removeData(T obj) {
+        int pos = data.indexOf(obj);
+        removeData(pos);
+    }
+
+    @Override
+    public void removeFirst() {
+        removeData(0);
+    }
+
+    @Override
+    public void removeLast() {
+        int size = getItemCount();
+        removeData(size == 0 ? -1 : size - 1);
     }
 
     @Override
@@ -77,7 +104,18 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
     }
 
     @Override
-    public void insertDatas(int position, List<T> insertedList) {
+    public void insertFirst(T obj) {
+        insertData(0,obj);
+    }
+
+    @Override
+    public void insertLast(T obj) {
+        int size = getItemCount();
+        insertData(size,obj);
+    }
+
+    @Override
+    public void insertData(int position, List<T> insertedList) {
         if (position < 0 || position > data.size() || insertedList == null)
             return;
         data.addAll(position, insertedList);

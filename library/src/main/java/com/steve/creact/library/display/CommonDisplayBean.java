@@ -6,9 +6,7 @@ import com.steve.creact.library.viewholder.BaseRecyclerViewHolder;
 
 
 /**
- * @author:YJJ
- * @date:2015/10/22
- * @email:yangjianjun@117go.com
+ * Use for ViewHolders without data or just have static data.
  */
 public class CommonDisplayBean extends BaseDisplayBean<BaseRecyclerViewHolder> {
     private int layoutId;

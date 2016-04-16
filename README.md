@@ -1,6 +1,6 @@
-##PowerfulRecyclerAdapter
+##PowerfulRecyclerViewAdapter
 
-An implement for RecyclerView.Adapter that supports any kind of list items, is a common Adapter.
+A RecyclerView.Adapter implementation  that supports any kind of list items, is a common Adapter.
 
 
 ###Features

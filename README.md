@@ -22,7 +22,7 @@ A RecyclerView.Adapter implementation that supports any kind of list items, is a
 	Use apt(Annotation Processor Tool) like used in Dagger2 and DataBinding to process annotations and generate DataBean source code for you,you don't need to write databean classes anymore,that's a progress.
 	see [Use @DataBean] guide module
 
-dev branch：https://github.com/simplify20/PowerfulRecyclerViewAdapter/tree/dev
+
 ###Class diagram：
 	tips:if the image is not clear,save it to local and use a picture browser to view.
 

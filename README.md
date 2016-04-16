@@ -20,7 +20,7 @@ A RecyclerView.Adapter implementation that supports any kind of list items, is a
 	3.use a SparseArray to cache views in the ViewHolder,see BaseRecyclerViewHolder for detail.
 	
 	Added on 4/10/2016:
-	1.@DataBean Annotation(dev branch)
+	1.@DataBean Annotation
 	Use apt(Annotation Processor Tool) like used in Dagger2 and DataBinding to process annotations and generate DataBean source code for you,you don't need to write databean classes anymore,that's a progress.
 	see [Use @DataBean] guide module
 

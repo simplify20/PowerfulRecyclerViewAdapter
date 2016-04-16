@@ -1,36 +1,27 @@
 package com.steve.creact.powerfuladapter.presentation.viewholder;
 
-import android.view.View;
-import android.widget.TextView;
+import android.view.ViewGroup;
 
 import com.steve.creact.annotation.DataBean;
 import com.steve.creact.library.viewholder.BaseRecyclerViewHolder;
 import com.steve.creact.powerfuladapter.R;
-import com.steve.creact.powerfuladapter.data.MockCategory;
 
 /**
  * @author:YJJ
  * @date:2016/3/30
  * @email:yangjianjun@117go.com
  */
-@DataBean(beanName = "TestCategoryBean",data = ICategory.class)
+@DataBean(beanName = "CategoryBean",data = ICategory.class)
 public class CategoryViewHolder extends BaseRecyclerViewHolder<ICategory> {
     public static final int LAYOUT_ID = R.layout.item_book_catagory;
-    protected TextView categoryNameTxt;
-
-    public CategoryViewHolder(View itemView) {
-        super(itemView);
+    public CategoryViewHolder(ViewGroup parent) {
+        super(parent);
     }
-
-    @Override
-    protected void initView() {
-        categoryNameTxt = findView(R.id.book_category);
-    }
-
     @Override
     public void setData(ICategory category) {
         if (category == null)
             return;
-        categoryNameTxt.setText(category.getName());
+        setText(R.id.book_category,category.getName());
     }
+
 }

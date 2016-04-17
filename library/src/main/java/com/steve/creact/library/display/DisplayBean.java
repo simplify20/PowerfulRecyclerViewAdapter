@@ -6,9 +6,7 @@ import com.steve.creact.library.viewholder.BaseRecyclerViewHolder;
 
 
 /**
- * @author:YJJ
- * @date:2015/10/22
- * @email:yangjianjun@117go.com
+ * An interface use to create a ViewHolder instance
  */
 public interface DisplayBean<VH extends BaseRecyclerViewHolder> {
 

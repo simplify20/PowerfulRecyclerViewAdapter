@@ -5,7 +5,7 @@ RecyclerView.Adapter.的一种实现,支持任意类型的Item，并支持对数
 **特性：**
 
 - 数据集操作，如增加，删除等；
-- 使用DataBean关联Data(Model)与ViewHolder,DataBean相当于Data的Wrapper;
+- 使用DataBean关联Data(Model)与ViewHolder,DataBean相当于Data的Wrapper；
 - DataBean控制ViewHolder的创建以及数据到ViewHolder的绑定；
 - Adapter的一部分职能由DataBean承担，如创建不同类型的ViewHolder以及绑定数据到ViewHolder,Adapter只用维护数据的相关操作即可；
 - Adapter的onCreateViewHolder()和onBindViewHolder()中没有switch..case语句，通过DataBean的多态性实现不同的创建和绑定；
@@ -15,15 +15,17 @@ RecyclerView.Adapter.的一种实现,支持任意类型的Item，并支持对数
 
 **新特性：**
 
-    2016-4-16 添加：(dev分支)
+    2016-4-16 添加：
     1.在BaseRecyclerViewHolder中新增了一些有用的api以简化ViewHolder的编写，例如setText(id,text),setImageBitmap(id,bitmap)等；
     2.在BaseRecyclerAdapter中添加了一些友好的，有用的api,例如removeData(data),removeFirst(),removeLast()等;
     3.使用SparseArray缓存ViewHolder中的View,如需了解细节，请看BaseRecyclerViewHolder的源码。
+    
+    2016-4-10 添加：
+    新增 @DataBean 注解
+    使用类似Dagger2和DataBinding的编译期注解处理器，在编译器根据模板生成DataBean代码（模板引擎），这样可以省去编写DataBean的成本。
+    参考下文[使用DataBean注解]
 
-	2016-4-10 添加：(dev分支)
-	新增 @DataBean 注解
-	使用类似Dagger2和DataBinding的编译期注解处理器，在编译器根据模板生成DataBean代码（模板引擎），这样可以省去编写DataBean的成本。
-	参考下文[使用DataBean注解]
+
 
 
 ###主要类：
@@ -61,27 +63,20 @@ public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 
 ```java
 public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
-	//declare LAYOUT_ID
+
+
     public static final int LAYOUT_ID = R.layout.item_book_title;
-    private TextView nameTxt;
-    private TextView priceTxt;
 
     public BookTitleViewHolder(View itemView) {
         super(itemView);
     }
 
     @Override
-    protected void initView() {
-        nameTxt = findView(R.id.name);
-        priceTxt = findView(R.id.price);
-    }
-
-    @Override
     public void setData(Book data) {
         if (data == null)
             return;
-        nameTxt.setText(data.getName());
-        priceTxt.setText(String.valueOf(data.getPrice()));
+        setText(R.id.name, data.getName());
+        setText(R.id.price, String.valueOf(data.getPrice()));
     }
 }
 ```
@@ -168,24 +163,16 @@ public interface ICategory {
  
  ####`CategoryViewHolder`
 ```java
- public class CategoryViewHolder extends BaseRecyclerViewHolder<ICategory> {
+public class CategoryViewHolder extends BaseRecyclerViewHolder<ICategory> {
     public static final int LAYOUT_ID = R.layout.item_book_catagory;
-    protected TextView categoryNameTxt;
-
     public CategoryViewHolder(View itemView) {
         super(itemView);
     }
-
-    @Override
-    protected void initView() {
-        categoryNameTxt = findView(R.id.book_category);
-    }
-
     @Override
     public void setData(ICategory category) {
         if (category == null)
             return;
-        categoryNameTxt.setText(category.getName());
+        setText(R.id.book_category,category.getName());
     }
 }
 ```
@@ -199,29 +186,21 @@ public interface ICategory {
 **使用步骤,以BookTitleViewHolder为例:**
 ```java
 //use DataBean annotation to annotate your ViewHolder
-@DataBean(beanName = "TestDataBean", data = Book.class)
+@DataBean(beanName = "BookTitleBean", data = Book.class)
 public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
-	//declare LAYOUT_ID,the name must be LAYOUT_ID
+
     public static final int LAYOUT_ID = R.layout.item_book_title;
-    private TextView nameTxt;
-    private TextView priceTxt;
 
     public BookTitleViewHolder(View itemView) {
         super(itemView);
     }
 
     @Override
-    protected void initView() {
-        nameTxt = findView(R.id.name);
-        priceTxt = findView(R.id.price);
-    }
-
-    @Override
     public void setData(Book data) {
         if (data == null)
             return;
-        nameTxt.setText(data.getName());
-        priceTxt.setText(String.valueOf(data.getPrice()));
+        setText(R.id.name, data.getName());
+        setText(R.id.price, String.valueOf(data.getPrice()));
     }
 }
 ```
@@ -235,8 +214,8 @@ DataBean的几个属性：
 - beanName->要生成的DataBean的简单类名，String类型；
 - data->要绑定的数据的类型，Class类型。
 
-3.build项目，注解处理器会在编译器获得注解信息，并生成代码，生成的TestDataBean如下：
-app\build\generated\source\apt\debug\ [package]\TestDataBean.java
+3.build项目，注解处理器会在编译器获得注解信息，并生成代码，生成的BookTitleBean如下：
+app\build\generated\source\apt\debug\ [package]\BookTitleBean.java
 ```java
 package com.steve.creact.powerfuladapter.presentation.viewholder.databean;
 
@@ -250,9 +229,9 @@ import com.steve.creact.powerfuladapter.presentation.viewholder.BookTitleViewHol
  * Generated DataBean for BookTitleViewHolder
  * Powered by Holder-Compiler
  */
-public class TestDataBean extends BaseDataBean<Book, BookTitleViewHolder> {
+public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 
-    public TestDataBean(Book data) {
+    public BookTitleBean(Book data) {
         super(data);
     }
 

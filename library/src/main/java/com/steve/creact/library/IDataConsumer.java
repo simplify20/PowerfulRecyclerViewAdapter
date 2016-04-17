@@ -1,14 +1,16 @@
-/**
- *
- * Copyright 2014 Travo, Inc. All rights reserved.
- * IDataConsumer.java
- *
- */
 package com.steve.creact.library;
 
 import java.util.List;
 
+/**
+ * An interface can consume data
+ * @param <T> data type
+ */
 public interface IDataConsumer<T>
 {
-    void loadData(List<? extends T> data);
+    /**
+     * load data
+     * @param dataSet
+     */
+    void loadData(List<? extends T> dataSet);
 }

@@ -9,9 +9,8 @@ import com.steve.creact.library.viewholder.BaseRecyclerViewHolder;
 
 
 /**
- * @author:YJJ
- * @date:2015/10/22
- * @email:yangjianjun@117go.com
+ * An abstract class provides an implementation for inflating a layout using
+ * given layout id and ViewGroup
  */
 public abstract class BaseDisplayBean<VH extends BaseRecyclerViewHolder> implements DisplayBean<VH> {
     protected View getView(ViewGroup parent, @LayoutRes int layoutId) {

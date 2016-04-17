@@ -16,9 +16,9 @@ import com.steve.creact.powerfuladapter.R;
 import com.steve.creact.powerfuladapter.data.Book;
 import com.steve.creact.powerfuladapter.data.Category;
 import com.steve.creact.powerfuladapter.data.MockCategory;
-import com.steve.creact.powerfuladapter.presentation.displaybean.BookTitleBean;
-import com.steve.creact.powerfuladapter.presentation.displaybean.CategoryBean;
 import com.steve.creact.powerfuladapter.presentation.viewholder.ICategory;
+import com.steve.creact.powerfuladapter.presentation.viewholder.databean.BookTitleBean;
+import com.steve.creact.powerfuladapter.presentation.viewholder.databean.CategoryBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;

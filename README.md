@@ -8,24 +8,24 @@ A Common RecyclerView.Adapter implementation which supports any kind of items an
 - Operate on data set,for example ,remove,add,get,etc.
 - Bind Data(Model) and ViewHolder using DataBean,DataBean is a Wrapper of Data(Model);
 - DataBean controls creation of the ViewHolder and binds data to the ViewHolder;
-- Separate part of Adapter' responsibilities to DataBean，such as creating an instance of the ViewHolder and binding data to ViewHolder.Adapter only operate data;
+- Separate part of Adapter's responsibilities to DataBean，such as creating an instance of the ViewHolder and binding data to ViewHolder.Adapter only operate data;
 - Remove all switch..case statemens in onCreateViewHolder() or onBindViewHolder() taking advantage of Polymorphism;
 - You don't need to write any Recycler.Adapters after you use this powerful common adapter;
 - Your RecyclerView can have any kind of items(or viewHolders).
 
 ###New features
 
-    Added on 4/16/2016:(dev branch)
-    1.add some useful apis in BaseRecyclerViewHolder,such as setText(id,text),setImageBitmap(id,bitmap),etc to simplify your ViewHolder coding;
-    2.add some useful and friendly apis in BaseRecyclerAdapter,such as removeData(data),removeFirst(),removeLast(),etc;
-    3.use a SparseArray to cache views in the ViewHolder,see BaseRecyclerViewHolder for detail.
-
-	Added on 4/10/2016:(dev branch)
-	@DataBean Annotation
+	Added on 4/16/2016:
+	1.add some useful apis in BaseRecyclerViewHolder,such as setText(id,text),setImageBitmap(id,bitmap),etc to simplify your ViewHolder coding;
+	2.add some useful and friendly apis in BaseRecyclerAdapter,such as removeData(data),removeFirst(),removeLast(),etc;
+	3.use a SparseArray to cache views in the ViewHolder,see BaseRecyclerViewHolder for detail.
+	
+	Added on 4/10/2016:
+	1.@DataBean Annotation
 	Use apt(Annotation Processor Tool) like used in Dagger2 and DataBinding to process annotations and generate DataBean source code for you,you don't need to write databean classes anymore,that's a progress.
 	see [Use @DataBean] guide module
 
-dev branch：https://github.com/simplify20/PowerfulRecyclerViewAdapter/tree/dev
+
 
 ###Important classes：
 
@@ -61,28 +61,21 @@ public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 - Extend BaseRecyclerViewHolder，create your ViewHolder;
 
 ```java
+
 public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
 	//declare LAYOUT_ID
     public static final int LAYOUT_ID = R.layout.item_book_title;
-    private TextView nameTxt;
-    private TextView priceTxt;
 
     public BookTitleViewHolder(View itemView) {
         super(itemView);
     }
 
     @Override
-    protected void initView() {
-        nameTxt = findView(R.id.name);
-        priceTxt = findView(R.id.price);
-    }
-
-    @Override
     public void setData(Book data) {
         if (data == null)
             return;
-        nameTxt.setText(data.getName());
-        priceTxt.setText(String.valueOf(data.getPrice()));
+        setText(R.id.name, data.getName());
+        setText(R.id.price, String.valueOf(data.getPrice()));
     }
 }
 ```
@@ -127,11 +120,13 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
 ```
 Screenshot:
 
+
 ![screenshot1](http://img.blog.csdn.net/20160412195405867)
 
 - For items have no data or only display static data,for example,just show a progressBar,use CommonDisplayBean which creates an instance of BaseRecyclerViewHolder
 
 ![screenshot2](http://img.blog.csdn.net/20160412195422029)
+
 
 - Reuse ViewHolder and DataBean
 
@@ -167,28 +162,48 @@ public interface ICategory {
  
  ####`CategoryViewHolder`
 ```java
- public class CategoryViewHolder extends BaseRecyclerViewHolder<ICategory> {
+public class CategoryViewHolder extends BaseRecyclerViewHolder<ICategory> {
     public static final int LAYOUT_ID = R.layout.item_book_catagory;
-    protected TextView categoryNameTxt;
-
     public CategoryViewHolder(View itemView) {
         super(itemView);
     }
-
-    @Override
-    protected void initView() {
-        categoryNameTxt = findView(R.id.book_category);
-    }
-
     @Override
     public void setData(ICategory category) {
         if (category == null)
             return;
-        categoryNameTxt.setText(category.getName());
+        setText(R.id.book_category,category.getName());
     }
+
 }
 ```
 
+
+
+### Use @DataBean
+Because BaseDataBean and its super classes have done much work for us，our DataBean's code is very simple,only have couple of lines.Simpler than Simpler,we use apt to genreate your DataBean source code.The tool is holder-compiler.Now you can use @DataBean on your ViewHolder,The apt will generate corresponding source code for you as you wanted，it's very convenient.
+
+
+**How to:take BookTitleViewHolder as an example**
+```java
+//use DataBean annotation to annotate your ViewHolder
+@DataBean(beanName = "BookTitleBean", data = Book.class)
+public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
+
+    public static final int LAYOUT_ID = R.layout.item_book_title;
+
+    public BookTitleViewHolder(View itemView) {
+        super(itemView);
+    }
+
+    @Override
+    public void setData(Book data) {
+        if (data == null)
+            return;
+        setText(R.id.name, data.getName());
+        setText(R.id.price, String.valueOf(data.getPrice()));
+    }
+}
+```
 
 
 ### Use @DataBean
@@ -236,8 +251,10 @@ Elements of DataBean：
 - beanName->simple class name of the generated DataBean，String type;
 - data->type of data which wrapped by DataBean and used by ViewHolder，Class type.
 
-3.build the project，apt will generated the DataBean code for you,and generated TestDataBean like this:
-app\build\generated\source\apt\debug\ [package]\TestDataBean.java
+
+3.build the project，apt will generated the DataBean code for you,and generated BookTitleBean like this:
+app\build\generated\source\apt\debug\ [package]\BookTitleBean.java
+
 ```java
 package com.steve.creact.powerfuladapter.presentation.viewholder.databean;
 
@@ -251,9 +268,11 @@ import com.steve.creact.powerfuladapter.presentation.viewholder.BookTitleViewHol
  * Generated DataBean for BookTitleViewHolder
  * Powered by Holder-Compiler
  */
-public class TestDataBean extends BaseDataBean<Book, BookTitleViewHolder> {
 
-    public TestDataBean(Book data) {
+public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
+
+    public BookTitleBean(Book data) {
+
         super(data);
     }
 

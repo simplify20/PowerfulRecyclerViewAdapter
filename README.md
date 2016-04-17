@@ -15,21 +15,18 @@ A Common RecyclerView.Adapter implementation which supports any kind of items an
 
 ###New features
 
-    Added on 4/16/2016:
+    Added on 4/16/2016:(dev branch)
     1.add some useful apis in BaseRecyclerViewHolder,such as setText(id,text),setImageBitmap(id,bitmap),etc to simplify your ViewHolder coding;
     2.add some useful and friendly apis in BaseRecyclerAdapter,such as removeData(data),removeFirst(),removeLast(),etc;
     3.use a SparseArray to cache views in the ViewHolder,see BaseRecyclerViewHolder for detail.
 
-	Added on 4/10/2016：
-	@DataBean Annotation(dev branch)
+	Added on 4/10/2016:(dev branch)
+	@DataBean Annotation
 	Use apt(Annotation Processor Tool) like used in Dagger2 and DataBinding to process annotations and generate DataBean source code for you,you don't need to write databean classes anymore,that's a progress.
 	see [Use @DataBean] guide module
 
 dev branch：https://github.com/simplify20/PowerfulRecyclerViewAdapter/tree/dev
-###Class diagram：
-	tips:if the image is not clear,save it to local and use a picture browser to view.
 
-![Class diagram](http://img.blog.csdn.net/20160330181333561)
 ###Important classes：
 
 `class CommonRecyclerAdapter`:common adapter whose super class is RecyclerView.Adapter，supports inserting and droping datas and supports any kind of items.

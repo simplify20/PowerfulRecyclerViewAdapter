@@ -13,19 +13,19 @@ RecyclerView.Adapter.的一种实现,支持任意类型的Item，并支持对数
 - 使用接口关联DataBean和ViewHolder可以提高ViewHolder及Data的复用性，并且利于测试。
 
 **新特性：**
+
     2016-4-16 添加：
     1.在BaseRecyclerViewHolder中新增了一些有用的api以简化ViewHolder的编写，例如setText(id,text),setImageBitmap(id,bitmap)等；
     2.在BaseRecyclerAdapter中添加了一些友好的，有用的api,例如removeData(data),removeFirst(),removeLast()等;
     3.使用SparseArray缓存ViewHolder中的View,如需了解细节，请看BaseRecyclerViewHolder的源码。
-	2016-4-10 添加：
-	新增 @DataBean 注解,目前在[dev分支]上
-	使用类似Dagger2和DataBinding的编译期注解处理器，在编译器根据模板生成DataBean代码（模板引擎），这样可以省去编写DataBean的成本。
-	参考下文[使用DataBean注解]
+    
+    2016-4-10 添加：
+    新增 @DataBean 注解
+    使用类似Dagger2和DataBinding的编译期注解处理器，在编译器根据模板生成DataBean代码（模板引擎），这样可以省去编写DataBean的成本。
+    参考下文[使用DataBean注解]
 
 
-###类图：
-	tips:图片看不清可右键另存或新标签页打开后查看
-![这里写图片描述](http://img.blog.csdn.net/20160330181333561)
+
 ###主要类：
 
 `class CommonRecyclerAdapter`：万能适配器，支持插入和删除数据,支持任意类型的ViewHolder(限于RecyclerView)
@@ -60,7 +60,6 @@ public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 - 根据item内容，继承BaseRecyclerViewHolder，实现自定义ViewHolder；
 
 ```java
-@DataBean(beanName = "BookTitleBean", data = Book.class)
 public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
 
     public static final int LAYOUT_ID = R.layout.item_book_title;
@@ -161,7 +160,6 @@ public interface ICategory {
  
  ####`CategoryViewHolder`
 ```java
-@DataBean(beanName = "CategoryBean",data = ICategory.class)
 public class CategoryViewHolder extends BaseRecyclerViewHolder<ICategory> {
     public static final int LAYOUT_ID = R.layout.item_book_catagory;
     public CategoryViewHolder(View itemView) {
@@ -214,8 +212,8 @@ DataBean的几个属性：
 - beanName->要生成的DataBean的简单类名，String类型；
 - data->要绑定的数据的类型，Class类型。
 
-3.build项目，注解处理器会在编译器获得注解信息，并生成代码，生成的TestDataBean如下：
-app\build\generated\source\apt\debug\ [package]\TestDataBean.java
+3.build项目，注解处理器会在编译器获得注解信息，并生成代码，生成的BookTitleBean如下：
+app\build\generated\source\apt\debug\ [package]\BookTitleBean.java
 ```java
 package com.steve.creact.powerfuladapter.presentation.viewholder.databean;
 

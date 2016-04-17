@@ -205,40 +205,6 @@ public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
 }
 ```
 
-
-### Use @DataBean
-Because BaseDataBean and its super classes have done much work for us，our DataBean's code is very simple,only have couple of lines.Simpler than Simpler,we use apt to genreate your DataBean source code.The tool is holder-compiler.Now you can use @DataBean on your ViewHolder,The apt will generate corresponding source code for you as you wanted，it's very convenient.
-
-
-**How to:take BookTitleViewHolder as an example**
-```java
-//use DataBean annotation to annotate your ViewHolder
-@DataBean(beanName = "TestDataBean", data = Book.class)
-public class BookTitleViewHolder extends BaseRecyclerViewHolder<Book> {
-	//declare LAYOUT_ID,the name must be LAYOUT_ID
-    public static final int LAYOUT_ID = R.layout.item_book_title;
-    private TextView nameTxt;
-    private TextView priceTxt;
-
-    public BookTitleViewHolder(View itemView) {
-        super(itemView);
-    }
-
-    @Override
-    protected void initView() {
-        nameTxt = findView(R.id.name);
-        priceTxt = findView(R.id.price);
-    }
-
-    @Override
-    public void setData(Book data) {
-        if (data == null)
-            return;
-        nameTxt.setText(data.getName());
-        priceTxt.setText(String.valueOf(data.getPrice()));
-    }
-}
-```
 1.Extend BaseRecyclerViewHolder to create your ViewHolder;
 
 	Notes:public field LAYOUT_ID of your ViewHolder is 

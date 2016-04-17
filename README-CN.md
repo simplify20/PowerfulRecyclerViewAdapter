@@ -1,9 +1,10 @@
 ##PowerfulRecyclerAdapter
-RecyclerView.Adapter.的一种实现,支持任意类型的Item，是一个通用适配器
+RecyclerView.Adapter.的一种实现,支持任意类型的Item，并支持对数据集的增删操作，是一个通用适配器。
 
 
 **特性：**
 
+- 数据集操作，如增加，删除等；
 - 使用DataBean关联Data(Model)与ViewHolder,DataBean相当于Data的Wrapper;
 - DataBean控制ViewHolder的创建以及数据到ViewHolder的绑定；
 - Adapter的一部分职能由DataBean承担，如创建不同类型的ViewHolder以及绑定数据到ViewHolder,Adapter只用维护数据的相关操作即可；

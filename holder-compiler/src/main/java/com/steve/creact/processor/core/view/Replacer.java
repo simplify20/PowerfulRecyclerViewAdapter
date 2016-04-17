@@ -1,4 +1,4 @@
-package com.steve.creact.processor.core;
+package com.steve.creact.processor.core.view;
 
 import java.util.Map;
 

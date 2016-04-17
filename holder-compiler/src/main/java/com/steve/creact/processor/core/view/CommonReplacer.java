@@ -1,7 +1,6 @@
-package com.steve.creact.processor.core.impl;
+package com.steve.creact.processor.core.view;
 
 import com.steve.creact.processor.core.Constants;
-import com.steve.creact.processor.core.Replacer;
 
 import java.util.HashSet;
 import java.util.Iterator;

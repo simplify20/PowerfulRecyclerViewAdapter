@@ -1,4 +1,4 @@
-package com.steve.creact.processor.model;
+package com.steve.creact.processor.core.model;
 
 import javax.lang.model.element.Element;
 

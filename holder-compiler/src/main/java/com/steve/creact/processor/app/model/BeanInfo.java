@@ -1,4 +1,4 @@
-package com.steve.creact.processor.model;
+package com.steve.creact.processor.app.model;
 
 /**
  * Created by Administrator on 2016/4/9.

@@ -1,7 +1,6 @@
 package com.steve.creact.processor.core.factory;
 
-import com.steve.creact.processor.core.ModelCreator;
-import com.steve.creact.processor.core.impl.DataBeanModelCreator;
+import com.steve.creact.processor.core.model.ModelCreator;
 
 /**
  * Created by Administrator on 2016/4/10.
@@ -22,8 +21,6 @@ public class ModelCreatorFactory {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        if (result == null)
-            result = new DataBeanModelCreator();
         return result;
     }
 }

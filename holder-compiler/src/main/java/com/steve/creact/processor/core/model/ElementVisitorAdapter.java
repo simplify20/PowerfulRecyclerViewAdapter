@@ -1,4 +1,4 @@
-package com.steve.creact.processor.model;
+package com.steve.creact.processor.core.model;
 
 import com.steve.creact.processor.core.Logger;
 

@@ -1,6 +1,4 @@
-package com.steve.creact.processor.core;
-
-import com.steve.creact.processor.model.AbstractModel;
+package com.steve.creact.processor.core.model;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;

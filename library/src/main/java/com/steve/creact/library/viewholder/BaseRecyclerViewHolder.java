@@ -43,6 +43,22 @@ public abstract class BaseRecyclerViewHolder<D> extends RecyclerView.ViewHolder 
     }
 
     /**
+     * Notes:when you remove a view,you must remove it from cache
+     *
+     * @param id
+     */
+    public void removeFromCache(@IdRes int id) {
+        views.remove(id);
+    }
+
+    /**
+     * remove all views in cache
+     */
+    public void removeAll() {
+        views.clear();
+    }
+
+    /**
      * subclass can overwrite this method
      */
     public void initView() {

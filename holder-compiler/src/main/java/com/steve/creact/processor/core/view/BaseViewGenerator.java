@@ -1,11 +1,8 @@
-package com.steve.creact.processor.core.impl;
+package com.steve.creact.processor.core.view;
 
 import com.steve.creact.processor.core.Constants;
 import com.steve.creact.processor.core.Logger;
-import com.steve.creact.processor.core.Replacer;
-import com.steve.creact.processor.core.ViewGenerator;
-import com.steve.creact.processor.model.AbstractModel;
-import com.steve.creact.processor.model.BeanInfo;
+import com.steve.creact.processor.core.model.AbstractModel;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,31 +10,51 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
-import java.util.Map;
+import java.util.HashMap;
 
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
-
 /**
- * Template Engine
- * Created by Administrator on 2016/4/10.
+ * Base Template Engine
+ * Created by Administrator on 2016/4/17.
  */
-public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
+public abstract class BaseViewGenerator<T> implements ViewGenerator<T>, Replacer {
+    /**
+     * when template file has updated,call this method to flush cache
+     *
+     * @param templateFilePath
+     */
+    public static void flushCache(String templateFilePath) {
+
+        if (templateFilePath != null)
+            templateCache.remove(templateFilePath);
+    }
+
+    /**
+     * flush all
+     */
+    public static void flushCache() {
+
+        templateCache.clear();
+    }
+
     protected ProcessingEnvironment processingEnvironment;
     protected Logger logger;
-    protected BeanInfo beanInfo;
+    protected T realModel;
+    //use to cache template read in last time,and reduce cost of I/O operations
+    private static final HashMap<String, String> templateCache = new HashMap<>(2);
 
     @Override
-    public void generate(AbstractModel<BeanInfo> model, ProcessingEnvironment processingEnv) {
+    public void generate(AbstractModel<T> model, ProcessingEnvironment processingEnv) {
         logger = Logger.getInstance(processingEnv.getMessager());
         processingEnvironment = processingEnv;
-        //beanInfo is initialized by AbstractModel
-        beanInfo = model.getRealModel();
-        if (beanInfo == null) {
-            logger.log(Diagnostic.Kind.NOTE, "bean info is null,aborted");
+        //realModel is initialized by AbstractModel
+        realModel = model.getRealModel();
+        if (realModel == null) {
+            logger.log(Diagnostic.Kind.NOTE, "readModel is null,aborted");
             return;
         }
         //load template
@@ -58,7 +75,7 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
         logger.log(Diagnostic.Kind.NOTE, "write source file...");
         try {
             writeFile(template, jfo.openWriter());
-            String sourceFileName = beanInfo.beanClassName();
+            String sourceFileName = getModelClassName();
             logger.log(Diagnostic.Kind.NOTE, "generate source file successful:" + sourceFileName);
         } catch (IOException e) {
             logger.log(Diagnostic.Kind.ERROR, "create file failed");
@@ -67,12 +84,17 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
     }
 
     /**
-     * load template file into memory from resource directory
+     * Firstly,check whether template cache contains the target template,if not,
+     * load template file into memory from resource directory.
      *
-     * @return
+     * @return template content
      */
     protected String loadTemplate() {
         String result = "";
+        String templateFilePath = getTemplateFilePath();
+        //check cache first
+        if (templateFilePath != null && (result = templateCache.get(templateFilePath)) != null)
+            return result;
         InputStream is = this.getClass().getClassLoader().getResourceAsStream(Constants.TEMPLATE_PATH);
         if (is == null) {
             logger.log(Diagnostic.Kind.ERROR, "open template file failed");
@@ -88,6 +110,8 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
                 builder.append("\n");
             }
             result = builder.toString();
+            //save template to cache
+            templateCache.put(templateFilePath,result);
         } catch (IOException e) {
             logger.log(Diagnostic.Kind.ERROR, "read template file failed");
             e.printStackTrace();
@@ -112,7 +136,7 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
         JavaFileObject result = null;
         Filer filer = processingEnvironment.getFiler();
         try {
-            result = filer.createSourceFile(beanInfo.beanClassName());
+            result = filer.createSourceFile(getModelClassName());
         } catch (IOException e) {
             logger.log(Diagnostic.Kind.ERROR, "create source file failed");
             e.printStackTrace();
@@ -131,7 +155,7 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
             throw new IllegalArgumentException("template content can not be null.");
         }
         BufferedWriter bufferedWriter = new BufferedWriter(writer);
-        String output = this.replace(template, null);
+        String output = replace(template, null);
         //logger.log(Diagnostic.Kind.NOTE, "output source file:" + output);
         try {
             bufferedWriter.append(output);
@@ -147,25 +171,15 @@ public class ViewGeneratorImpl implements ViewGenerator<BeanInfo>, Replacer {
         }
     }
 
-    @Override
-    public String replace(String input, Map<String, String> replaceValues) {
-        String output = input.replace(Constants.PACKAGE_NAME, beanInfo.dataBeanPackage);
-        output = output.replace(Constants.DATA_ENTITY_FULL_QUALIFIED_CLASS_NAME, beanInfo.dataClassName());
-        output = output.replace(Constants.VIEW_HOLDER_FULL_QUALIFIED_CLASS_NAME, beanInfo.holderClassName());
-        output = output.replace(Constants.DATA_BEAN_SIMPLE_CLASS_NAME, beanInfo.dataBeanName);
-        output = output.replace(Constants.DATA_ENTITY_SIMPLE_CLASS_NAME, beanInfo.dataName);
-        output = output.replace(Constants.VIEW_HOLDER_SIMPLE_CLASS_NAME, beanInfo.holderName);
-        return output;
-    }
+    /**
+     * Get name of the class will be generated
+     * @return
+     */
+    protected abstract String getModelClassName();
 
-//    private HashMap<String, String> createValuesMap(BeanInfo beanInfo) {
-//        HashMap<String, String> result = new HashMap<>();
-//        result.put(Constants.PACKAGE_NAME, beanInfo.dataBeanPackage);
-//        result.put(Constants.DATA_ENTITY_FULL_QUALIFIED_CLASS_NAME, beanInfo.dataPackage + "." + beanInfo.dataName);
-//        result.put(Constants.VIEW_HOLDER_FULL_QUALIFIED_CLASS_NAME, beanInfo.holderPackage + "." + beanInfo.holderName);
-//        result.put(Constants.DATA_BEAN_SIMPLE_CLASS_NAME, beanInfo.dataBeanName);
-//        result.put(Constants.DATA_ENTITY_SIMPLE_CLASS_NAME, beanInfo.dataName);
-//        result.put(Constants.VIEW_HOLDER_SIMPLE_CLASS_NAME, beanInfo.holderName);
-//        return result;
-//    }
+    /**
+     * Get specific template file path in resource directory
+     * @return
+     */
+    protected abstract String getTemplateFilePath();
 }

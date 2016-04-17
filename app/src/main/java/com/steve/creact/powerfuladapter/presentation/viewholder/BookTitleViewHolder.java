@@ -1,7 +1,6 @@
 package com.steve.creact.powerfuladapter.presentation.viewholder;
 
 import android.view.View;
-import android.widget.TextView;
 
 import com.steve.creact.annotation.DataBean;
 import com.steve.creact.library.viewholder.BaseRecyclerViewHolder;

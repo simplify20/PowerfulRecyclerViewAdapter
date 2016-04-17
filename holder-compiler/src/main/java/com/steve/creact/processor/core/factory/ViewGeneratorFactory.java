@@ -1,8 +1,7 @@
 package com.steve.creact.processor.core.factory;
 
 
-import com.steve.creact.processor.core.ViewGenerator;
-import com.steve.creact.processor.core.impl.ViewGeneratorImpl;
+import com.steve.creact.processor.core.view.ViewGenerator;
 
 /**
  * Created by Administrator on 2016/4/10.
@@ -22,8 +21,6 @@ public class ViewGeneratorFactory {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        if (viewGenerator == null)
-            viewGenerator = new ViewGeneratorImpl();
         return viewGenerator;
     }
 }

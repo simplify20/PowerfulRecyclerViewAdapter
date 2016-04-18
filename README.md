@@ -183,7 +183,7 @@ public class CategoryViewHolder extends BaseRecyclerViewHolder<ICategory> {
 Because BaseDataBean and its super classes have done much work for us，our DataBean's code is very simple,only have couple of lines.Simpler than Simpler,we use apt to genreate your DataBean source code.The tool is holder-compiler.Now you can use @DataBean on your ViewHolder,The apt will generate corresponding source code for you as you wanted，it's very convenient.
 
 
-**How to:take BookTitleViewHolder as an example**
+**How to:take BookTitleViewHolder for example**
 ```java
 //use DataBean annotation to annotate your ViewHolder
 @DataBean(beanName = "BookTitleBean", data = Book.class)

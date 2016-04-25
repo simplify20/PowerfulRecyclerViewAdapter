@@ -48,16 +48,17 @@ classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 ```
 
 - apply apt plugin to your app's gradle flie and must apply after application plugin:
-
-> apply plugin: 'com.neenbedankt.android-apt'
+```gradle
+apply plugin: 'com.neenbedankt.android-apt'
+```
 
 - add PowerfulRecyclerViewAdapter dependencies to your app's gradle file:
 
-> compile 'com.creact:powerful-adapter-lib-release:1.0.0'
-
-> provided 'com.creact:powerful-adapter-annotations-release:1.0.0'
-
-> apt 'com.creact:powerful-adapter-complier-release:1.0.0'//apt
+```gradle
+compile 'com.creact:powerful-adapter-lib-release:1.0.0'
+provided 'com.creact:powerful-adapter-annotations-release:1.0.0'
+apt 'com.creact:powerful-adapter-complier-release:1.0.0'//apt
+```
 
 Use:
 

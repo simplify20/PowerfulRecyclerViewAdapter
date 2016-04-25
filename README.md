@@ -43,8 +43,9 @@ A Common RecyclerView.Adapter implementation which supports any kind of items an
 Setup:
 
 - add apt classpath dependencies to your project's gradle file:
-
-> classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+```gradle
+classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+```
 
 - apply apt plugin to your app's gradle flie and must apply after application plugin:
 

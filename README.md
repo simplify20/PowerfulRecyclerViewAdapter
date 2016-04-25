@@ -15,6 +15,9 @@ A Common RecyclerView.Adapter implementation which supports any kind of items an
 
 ###New features
 
+    Added on 4/25/2016:
+    1.add HolderAPI and HolderHelper which can be reused in all kinds of ViewHolders,even ListView,GridViews.
+
 	Added on 4/16/2016:
 	1.add some useful apis in BaseRecyclerViewHolder,such as setText(id,text),setImageBitmap(id,bitmap),etc to simplify your ViewHolder coding;
 	2.add some useful and friendly apis in BaseRecyclerAdapter,such as removeData(data),removeFirst(),removeLast(),etc;
@@ -36,6 +39,24 @@ A Common RecyclerView.Adapter implementation which supports any kind of items an
 `interface DataBean`:extends from DisplayBean，used to bind data to viewholders
 
 ###How To：
+
+Setup:
+
+- add apt classpath dependencies to your project's gradle file:
+
+> classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+
+- apply apt plugin to your app's gradle flie and must apply after application plugin:
+
+> apply plugin: 'com.neenbedankt.android-apt'
+
+- add PowerfulRecyclerViewAdapter dependencies to your app's gradle file:
+
+>   compile 'com.creact:powerful-adapter-lib-release:1.0.0'
+    provided 'com.creact:powerful-adapter-annotations-release:1.0.0'
+    apt 'com.creact:powerful-adapter-complier-release:1.0.0'//apt
+
+Use:
 
 - Declare CommonRecyclerAdapter as your RecyclerView's adapter;
 ```java

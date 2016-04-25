@@ -53,8 +53,10 @@ Setup:
 - add PowerfulRecyclerViewAdapter dependencies to your app's gradle file:
 
 > compile 'com.creact:powerful-adapter-lib-release:1.0.0'
-  provided 'com.creact:powerful-adapter-annotations-release:1.0.0'
-  apt 'com.creact:powerful-adapter-complier-release:1.0.0'//apt
+
+> provided 'com.creact:powerful-adapter-annotations-release:1.0.0'
+
+> apt 'com.creact:powerful-adapter-complier-release:1.0.0'//apt
 
 Use:
 

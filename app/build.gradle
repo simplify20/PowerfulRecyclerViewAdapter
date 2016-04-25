@@ -21,13 +21,14 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(':library')
-    //annotations
-    provided project(":holder-annotations")
+//    compile project(':library')
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'
+
+    compile 'com.creact:powerful-adapter-lib-release:1.0.0'
+    provided 'com.creact:powerful-adapter-annotations-release:1.0.0'
     //annotation processor
     //Note:use "compile" cmd to generate build files(holder-compiler.jar),when jar file is generated,use "apt" cmd instead.
-    apt project(':holder-compiler')
+    apt 'com.creact:powerful-adapter-complier-release:1.0.0'
     testCompile 'junit:junit:4.12'
 }

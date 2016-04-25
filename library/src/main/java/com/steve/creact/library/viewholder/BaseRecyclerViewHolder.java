@@ -6,156 +6,111 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.SparseArray;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+import com.steve.creact.library.HolderAPI;
+import com.steve.creact.library.listener.TextWatcherAdapter;
 
 /**
- * A base ViewHolder supports some useful api
+ * A Base ViewHolder provides some useful api
  *
  * @param <D>
  */
-public abstract class BaseRecyclerViewHolder<D> extends RecyclerView.ViewHolder {
-    /**
-     * view cache
-     */
-    protected SparseArray<View> views = new SparseArray<>();
+public abstract class BaseRecyclerViewHolder<D> extends RecyclerView.ViewHolder implements HolderAPI {
 
-    public BaseRecyclerViewHolder(View itemView) {
-        super(itemView);
-        initView();
-    }
+  protected final HolderAPI holderAPI;
 
-    public Context getContext() {
-        return itemView.getContext();
-    }
+  public BaseRecyclerViewHolder( View itemView ) {
+    super( itemView );
+    holderAPI = new HolderHelper( itemView );
+    initView();
+  }
 
-    public void setOnItemClickListener(View.OnClickListener listener) {
-        itemView.setOnClickListener(listener);
-    }
+  @Override
+  public Context getContext() {
+    return holderAPI.getContext();
+  }
 
-    /**
-     * Notes:when you remove a view,you must remove it from cache
-     *
-     * @param id
-     */
-    public void removeFromCache(@IdRes int id) {
-        views.remove(id);
-    }
+  @Override
+  public void setOnItemClickListener( View.OnClickListener listener ) {
+    holderAPI.setOnItemClickListener( listener );
+  }
 
-    /**
-     * remove all views in cache
-     */
-    public void removeAll() {
-        views.clear();
-    }
+  /**
+   * Notes:when you remove a view,you must remove it from cache
+   *
+   * @param id
+   */
+  @Override
+  public void removeFromCache( @IdRes int id ) {
+    holderAPI.removeFromCache( id );
+  }
 
-    /**
-     * subclass can overwrite this method
-     */
-    public void initView() {
-    }
+  /**
+   * remove all views in cache
+   */
+  @Override
+  public void removeAll() {
+    holderAPI.removeAll();
+  }
 
-    public <T extends View> T getView(@IdRes int id) {
-        T result = null;
-        try {
-            if ((result = (T) views.get(id)) != null)
-                return result;
-            result = (T) itemView.findViewById(id);
-            if (result == null)
-                return result;
-        } catch (ClassCastException e) {
-            e.printStackTrace();
-            return result;
-        }
-        //add to cache
-        views.put(id, View.class.cast(result));
-        return result;
-    }
+  /**
+   * subclass can overwrite this method
+   */
+  @Override
+  public void initView() {
+    holderAPI.initView();
+  }
 
-    public void setText(@IdRes int id, CharSequence text) {
+  @Override
+  public <T extends View> T getView( @IdRes int id ) {
+    return holderAPI.getView( id );
+  }
 
-        TextView targetTxt = getView(id);
-        if (targetTxt != null)
-            targetTxt.setText(text);
+  @Override
+  public void setText( @IdRes int id, CharSequence text ) {
+    holderAPI.setText( id, text );
+  }
 
-    }
+  @Override
+  public void setTextWatcher( @IdRes int id, TextWatcherAdapter watcherAdapter ) {
+    holderAPI.setTextWatcher( id, watcherAdapter );
+  }
 
-    public void setTextWatcher(@IdRes int id, TextWatcherAdapter watcherAdapter) {
-        TextView targetTxt = getView(id);
-        if (targetTxt != null)
-            targetTxt.addTextChangedListener(watcherAdapter);
-    }
+  @Override
+  public CharSequence getText( @IdRes int id ) {
+    return holderAPI.getText( id );
+  }
 
-    public CharSequence getText(@IdRes int id) {
-        TextView targetTxt = getView(id);
-        if (targetTxt != null)
-            return targetTxt.getText();
-        return "";
-    }
+  @Override
+  public void setOnClickListener( @IdRes int id, View.OnClickListener onClickListener ) {
+    holderAPI.setOnClickListener( id, onClickListener );
+  }
 
+  @Override
+  public void setOnLongClickListener( @IdRes int id, View.OnLongClickListener onLongClickListener ) {
+    holderAPI.setOnLongClickListener( id, onLongClickListener );
+  }
 
-    public void setOnClickListener(@IdRes int id, View.OnClickListener onClickListener) {
-        View targetView = getView(id);
-        if (targetView != null) {
-            targetView.setOnClickListener(onClickListener);
-        }
-    }
+  @Override
+  public void setVisibility( @IdRes int id, int visibility ) {
+    holderAPI.setVisibility( id, visibility );
+  }
 
-    public void setOnLongClickListener(@IdRes int id, View.OnLongClickListener onLongClickListener) {
-        View targetView = getView(id);
-        if (targetView != null) {
-            targetView.setOnLongClickListener(onLongClickListener);
-        }
-    }
+  @Override
+  public void setImageSrc( @IdRes int id, @DrawableRes int res ) {
+    holderAPI.setImageSrc( id, res );
+  }
 
-    public void setVisibility(@IdRes int id, int visibility) {
-        View targetView = getView(id);
-        if (targetView != null) {
-            targetView.setVisibility(visibility);
-        }
-    }
+  @Override
+  public void setImageDrawable( @IdRes int id, Drawable drawable ) {
+    holderAPI.setImageDrawable( id, drawable );
+  }
 
+  @Override
+  public void setImageBitmap( @IdRes int id, Bitmap bitmap ) {
+    holderAPI.setImageBitmap( id, bitmap );
+  }
 
-    public void setImageSrc(@IdRes int id, @DrawableRes int res) {
-        ImageView targetImageView = getView(id);
-        if (targetImageView != null)
-            targetImageView.setImageResource(res);
-    }
-
-    public void setImageDrawable(@IdRes int id, Drawable drawable) {
-        ImageView targetImageView = getView(id);
-        if (targetImageView != null)
-            targetImageView.setImageDrawable(drawable);
-    }
-
-    public void setImageBitmap(@IdRes int id, Bitmap bitmap) {
-        ImageView targetImageView = getView(id);
-        if (targetImageView != null)
-            targetImageView.setImageBitmap(bitmap);
-    }
-
-
-    public static class TextWatcherAdapter implements TextWatcher {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    }
-
-    public abstract void setData(D data);
+  public abstract void setData( D data );
 }

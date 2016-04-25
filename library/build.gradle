@@ -24,3 +24,24 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile "com.android.support:recyclerview-v7:23.1.0"
 }
+
+
+//apply plugin: 'com.novoda.bintray-release' // must be applied after your artifact generating plugin (eg. java / com.android.library)
+//
+//buildscript {
+//    repositories {
+//        jcenter()
+//    }
+//    dependencies {
+//        classpath 'com.novoda:bintray-release:0.3.4'
+//    }
+//}
+//
+//publish {
+//    userOrg = 'creact'
+//    groupId = 'com.creact'
+//    artifactId = 'powerful-adapter-lib-release'
+//    publishVersion = '1.0.0'
+//    desc = 'this is a lib for PowerfulRecyclerViewAdapter'
+//    website = 'https://github.com/simplify20/PowerfulRecyclerViewAdapter'
+//}

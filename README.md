@@ -275,6 +275,31 @@ public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 ```
 Just like handwriting code!
 
+### one More Tip:
+Use File Template function of IDE to create a common ViewHolder class template!
+Right click package name, select "New" menu,then select "Edit File Template",add your custom ViewHolder class template,my template file is like this:
+
+```java
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+#parse("File Header.java")
+@DataBean( beanName = "${DATA}DataBean",data = ${DATA}.class)
+public class ${DATA}ViewHolder extends BaseRecyclerViewHolder<${DATA}> {
+
+  public static final int LAYOUT_ID = R.layout.your_layout_id;
+
+  public ${DATA}ViewHolder( View itemView ) {
+    super( itemView );
+  }
+
+  @Override
+  public void setData( ${DATA} data ) {
+    if ( data == null ) return;
+  }
+}
+```
+${DATA} is a placeholder which represents class name of your data.
+After creating a ViewHolder template,every time you want write a ViewHolder, you can use the template to create it then modify the variable part.
+
 **problems may occur when you build:**
 
 - can't delete holder-compiler.jar->open task manager，end process of java se，rebuild.

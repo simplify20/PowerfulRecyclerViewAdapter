@@ -1,4 +1,5 @@
 ##PowerfulRecyclerViewAdapter
+[![Bintray](https://img.shields.io/badge/maven%20center-v1.0.0-brightgreen.svg)](https://bintray.com/creact/maven/powerful-adapter-lib-release)
 
 A Common RecyclerView.Adapter implementation which supports any kind of items and has useful data operating APIs such as remove,add,etc.
 

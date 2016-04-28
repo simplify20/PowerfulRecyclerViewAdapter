@@ -43,20 +43,22 @@ A Common RecyclerView.Adapter implementation which supports any kind of items an
 Setup:
 
 - add apt classpath dependencies to your project's gradle file:
-
-> classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+```gradle
+classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+```
 
 - apply apt plugin to your app's gradle flie and must apply after application plugin:
-
-> apply plugin: 'com.neenbedankt.android-apt'
+```gradle
+apply plugin: 'com.neenbedankt.android-apt'
+```
 
 - add PowerfulRecyclerViewAdapter dependencies to your app's gradle file:
 
->   compile 'com.creact:powerful-adapter-lib-release:1.0.0'
-
-    provided 'com.creact:powerful-adapter-annotations-release:1.0.0'
-    
-    apt 'com.creact:powerful-adapter-complier-release:1.0.0'//apt
+```gradle
+compile 'com.creact:powerful-adapter-lib-release:1.0.0'
+provided 'com.creact:powerful-adapter-annotations-release:1.0.0'
+apt 'com.creact:powerful-adapter-complier-release:1.0.0'//apt
+```
 
 Use:
 
@@ -272,6 +274,31 @@ public class BookTitleBean extends BaseDataBean<Book, BookTitleViewHolder> {
 }
 ```
 Just like handwriting code!
+
+### One More Tip:
+Use File Template function of IDE to create a common ViewHolder class template!
+Right click the package you want to put ViewHolders in, select "New" menu,then select "Edit File Template",add your custom ViewHolder class file template,my template is like this:
+
+```java
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+#parse("File Header.java")
+@DataBean( beanName = "${DATA}DataBean",data = ${DATA}.class)
+public class ${DATA}ViewHolder extends BaseRecyclerViewHolder<${DATA}> {
+
+  public static final int LAYOUT_ID = R.layout.your_layout_id;
+
+  public ${DATA}ViewHolder( View itemView ) {
+    super( itemView );
+  }
+
+  @Override
+  public void setData( ${DATA} data ) {
+    if ( data == null ) return;
+  }
+}
+```
+${DATA} is a placeholder which represents class name of your data.
+After creating a ViewHolder file template,every time you want write a ViewHolder, you can use the template to create it then modify the variable part.
 
 **problems may occur when you build:**
 

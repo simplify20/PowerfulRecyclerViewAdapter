@@ -41,7 +41,7 @@ dependencies {
 //    userOrg = 'creact'
 //    groupId = 'com.creact'
 //    artifactId = 'powerful-adapter-lib-release'
-//    publishVersion = '1.0.0'
+//    publishVersion = '1.0.2'
 //    desc = 'this is a lib for PowerfulRecyclerViewAdapter'
 //    website = 'https://github.com/simplify20/PowerfulRecyclerViewAdapter'
 //}

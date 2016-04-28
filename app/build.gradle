@@ -25,7 +25,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'
 
-    compile 'com.creact:powerful-adapter-lib-release:1.0.0'
+//    compile 'com.creact:powerful-adapter-lib-release:1.0.5@aar'
+    compile project(":library")
     provided 'com.creact:powerful-adapter-annotations-release:1.0.0'
     //annotation processor
     //Note:use "compile" cmd to generate build files(holder-compiler.jar),when jar file is generated,use "apt" cmd instead.

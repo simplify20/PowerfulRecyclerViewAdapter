@@ -57,10 +57,12 @@ public class CommonRecyclerAdapter extends BaseRecyclerAdapter<DisplayBean, Base
     @Override
     public void onBindViewHolder(BaseRecyclerViewHolder holder, int position) {
         DisplayBean bindBean = data.get(position);
+        setListener(holder,bindBean,position);
         if (bindBean instanceof DataBean) {
             ((DataBean) bindBean).bindData(holder);
         }
     }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -74,6 +76,15 @@ public class CommonRecyclerAdapter extends BaseRecyclerAdapter<DisplayBean, Base
         return index;
     }
 
+  /**
+   * Subclass can extend this base class and override this method to set holder's listener
+   * @param holder
+   * @param bindBean
+   * @param position
+   */
+    public void setListener( BaseRecyclerViewHolder holder, DisplayBean bindBean, int position ) {
+        //do nothing
+    }
     @Override
     protected boolean useItemAnimation() {
         return this.userAnimation;
@@ -82,6 +93,7 @@ public class CommonRecyclerAdapter extends BaseRecyclerAdapter<DisplayBean, Base
     public void setUserAnimation(boolean userAnimation) {
         this.userAnimation = userAnimation;
     }
+
 
     private void addCreateBean(DisplayBean bean) {
         Class<DisplayBean> clz = (Class<DisplayBean>) bean.getClass();

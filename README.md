@@ -57,7 +57,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 - add PowerfulRecyclerViewAdapter dependencies to your app's gradle file:
 
 ```gradle
-compile 'com.creact:powerful-adapter-lib-release:1.0.0'
+compile 'com.creact:powerful-adapter-lib-release:1.0.0@aar'
 provided 'com.creact:powerful-adapter-annotations-release:1.0.0'
 apt 'com.creact:powerful-adapter-complier-release:1.0.0'//apt
 ```

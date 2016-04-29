@@ -18,10 +18,8 @@ A Common RecyclerView.Adapter implementation which supports any kind of items an
 
 ###New features
 
-    Added on 4/28/2016:
-    1.add setListener( BaseRecyclerViewHolder holder, DisplayBean bindBean, int position ) method in CommonRecyclerAdapter.Extend CommonRecyclerAdapter if you want set holder'listener outside of the ViewHolder
-    If not,you can use CommonRecyclerAdapter as your RecyclerView's adapter directly and
-    set Listeners in each kind of ViewHolder
+    Added on 4/28/2016(dev branch):
+    1.add setListener( BaseRecyclerViewHolder holder, DisplayBean bindBean, int position ) method in CommonRecyclerAdapter.Extend CommonRecyclerAdapter if you want set holder'listener outside of the ViewHolder,If not,you can use CommonRecyclerAdapter as your RecyclerView's adapter directly and set Listeners in each kind of ViewHolder
     
      Added on 4/25/2016:
     1.add HolderAPI and HolderHelper which can be reused in all kinds of ViewHolders,even ListView,GridViews.

@@ -1,5 +1,6 @@
 ##PowerfulRecyclerAdapter
 [![Bintray](https://img.shields.io/badge/maven%20center-v1.0.0-brightgreen.svg)](https://bintray.com/creact/maven/powerful-adapter-lib-release)
+[![android-arsenal](https://img.shields.io/badge/Android%20Arsenal%20-PowerfulRecyclerViewAdapter-blue.svg)](http://android-arsenal.com/details/1/3472)
 [![Apache 2](https://img.shields.io/hexpm/l/plug.svg?maxAge=2592000)](https://github.com/simplify20/PowerfulRecyclerViewAdapter/blob/master/LICENSE)
 
 RecyclerView.Adapter.的一种实现,支持任意类型的Item，并支持对数据集的增删操作，是一个通用适配器。
